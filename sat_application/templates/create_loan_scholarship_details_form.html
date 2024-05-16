@@ -1,0 +1,2098 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<!-- Page Loader start -->
+<div id="loader-sch" style="display: none;align-items: center;justify-content: center;position: fixed;
+    top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.7); z-index: 9999; ">
+    <div id="loader" class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<!-- Page Loader End -->
+
+<div id="scroll-container">
+  <div id="scroll-text">Disclaimer : Student can fill only one form either Student Scholarship Form or Loan Form</div>
+</div>
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h6 class="nk-block-title page-title">Student Loan Form</h6>
+            <div class="nk-block-des text-soft">
+              {% if messages %}
+                  {% for message in messages %}   
+                      <div class="example-alert">
+                          <div class="alert alert-{{ message.tags}} alert-dismissible alert-icon"><strong>{{message}}</strong><button class="close" data-bs-dismiss="alert"></button>
+                          </div>
+                      </div>
+                  {% endfor %}   
+              {% endif %}
+            </div>
+          </div><!-- .nk-block-head-content -->
+        </div><!-- .nk-block-between -->
+      </div><!-- .nk-block-head -->
+      <form action="{% url 'stloanguarantorformdetails' %}" method="post" 
+      enctype="multipart/form-data">
+        {% csrf_token %} 
+          <div class="nk-block">
+            <div class="row g-gs">
+              <div class="col-lg-12">
+                <div class="card card-bordered card-preview">
+                  <div class="card-inner">
+                    <div class="preview-block">
+                      <div class="row gy-4">
+                        <span class="preview-title-lg overline-title">Personal Info</span>
+                        <div class="col-sm-4">
+                          <input type="text" hidden name="id" value="{{form_saved_data.id}}">
+                          <div class="form-group">
+                            <label class="form-label" for="first_name">First Name </label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="first_name" name="first_name"  placeholder="Enter your first name" required {% if form_saved_data %} value="{{form_saved_data.first_name}}" {% else %} value="{{request.user.first_name}}" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="middle_name">Middle Name</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                               <input type="text" class="form-control field" id="middle_name" name="middle_name" placeholder="Enter your middle name" required {% if form_saved_data %} value="{{form_saved_data.middle_name}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="last_name">Last Name</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="last_name" name="last_name" placeholder="Enter your last name" required {% if form_saved_data %} value="{{form_saved_data.last_name}}" {% else %} value="{{request.user.last_name}}" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="first_name_marathi">पहिले नाव</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                               <input type="text" class="form-control field" id="first_name_marathi" name="first_name_marathi" {% if form_saved_data %} value="{{form_saved_data.first_name_marathi}}" {% else %} value="" {% endif %} placeholder="Enter your first name in marathi" required  title="Please enter only Marathi characters." pattern="^[\u0900-\u097F\s]*$" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="middle_name_marathi">मधले नाव</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="middle_name_marathi" name="middle_name_marathi" {% if form_saved_data %} value="{{form_saved_data.middle_name_marathi}}" {% else %} value="" {% endif %} placeholder="Enter your middle name in marathi" required  title="Please enter only Marathi characters." pattern="^[\u0900-\u097F\s]*$" >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="last_name_marathi">आडनाव</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="last_name_marathi" name="last_name_marathi" {% if form_saved_data %} value="{{form_saved_data.last_name_marathi}}" {% else %} value="" {% endif %} placeholder="Enter your last name in marathi" required  title="Please enter only Marathi characters." pattern="^[\u0900-\u097F\s]*$">
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" hidden>
+                          <div class="form-control-wrap">
+                            <label class="form-label">Select Session</label>
+                            <span style="color:red;">*</span>
+                            <select class="form-select field" id="st_sch_loan_session" name="st_sch_loan_session">
+                            <option value="{{ current_year_id.id }}" selected>{{current_year_id.year}}</option> 
+                            </select>
+
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="mobile">Mobile No</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="tel" class="form-control field" id="mobile" name="mobile"  placeholder="Enter your mobile number"{% if form_saved_data %} value="{{ form_saved_data.mobile }}" {% else %} value="{{user_data.mobile}}" {% endif %}
+                              maxlength="13" pattern="(\+91)?[0-9]{10}" required>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="email">Email</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                             <input type="email" class="form-control field" id="email" name="email"  placeholder="Enter your email address" {% if form_saved_data %} value="{{request.user.email}}" {% else %} value="{{request.user.email}}" {% endif %} maxlength="50" required readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <hr class="preview-hr"> -->
+                        <span class="preview-title-lg overline-title">Address</span>
+                        <div class="col-sm-8">
+                          <div class="form-group">
+                            <label class="form-label" for="address">Enter Current Full Address</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="address" name="address" {% if form_saved_data %} value="{{form_saved_data.address}}" {% else %} value="" {% endif %}  placeholder="Enter your address"  required >
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="pincode">Pincode</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <div class="form-file">
+                                <input type="text" class="form-control field" id="pincode" name="pincode"  placeholder="Enter your pincode"  pattern="[0-9]{6}" maxlength="6" required
+                                {% if form_saved_data %} value="{{form_saved_data.pincode}}" {% else %} value="" {% endif %}>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label">Current District</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="district" name="district" 
+                              required onchange="DistrictValue(this)">
+                                {% if not form_saved_data.district %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+                                {% for dist in districts %}
+                                  {% if District_id == dist.id %}
+                                    <option value="{{dist.id}}" selected>    
+                                    {{ dist.name }}
+                                  </option>
+                                  {% else %}
+                                  <option value="{{dist.id}}">{{dist.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4" id="div_taluka">
+                          <div class="form-group">
+                            <label class="form-label">Current Taluka</label>
+                            <span id="taluka_red_dot" style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="taluka" name="taluka" 
+                              required onchange="TalukaOtherAppend(this)">
+                                {% if not form_saved_data.taluka %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+  
+                                {% for taluka in talukas %}
+                                  {% if form_saved_data.taluka == taluka.name %}
+                                    <option value="{{taluka.name}}" selected>    
+                                    {{ taluka.name }}
+                                  </option>
+                                  {% else %}
+                                  <option value="{{taluka.name}}">{{taluka.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4" id="other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_district">Other District</label>
+                            <span style="color:red;" id="other_district_red_dot">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_district"
+                               name="other_district" placeholder = "Enter district here"
+                               {% if form_saved_data.other_district %} value="{{ form_saved_data.other_district }}" {% endif%}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4" id="taluka_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_taluka">Other Taluka</label>
+                            <span style="color:red;" id="other_taluka_red_dot">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_taluka"
+                               name="other_taluka" placeholder = "Enter taluka here"
+                               {% if form_saved_data.other_taluka %} value="{{ form_saved_data.other_taluka }}" {% endif%}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="mulgaon">Current Mulgaon</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="mulgaon" 
+                              name="mulgaon" required
+                              {% if form_saved_data %} value="{{form_saved_data.mulgaon}}" {% else %} value="" {% endif %}  placeholder="Enter your mulgaon">
+
+                            </div>
+                          </div>
+                        </div> 
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Is your birth place different than the address you have given above ? <span style="color:red;"> *</span></label>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" name="is_birth_place_different" id="is_birth_place_different" onchange="BirthValidation(this)" required>
+                                {% if not form_saved_data.is_birth_place_different %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                                {% if form_saved_data.is_birth_place_different == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% endif %}
+                                {% if form_saved_data.is_birth_place_different == False %}
+                                <option value=True>Yes</option>
+                                <option value=False selected>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" id="district_birth_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="birth_other_district">Birth District<span id="birth_district" style="color:red;"> </span> </label>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="birth_other_district"
+                                placeholder="Enter your birth place" name="birth_other_district"   
+                                {% if form_saved_data %} value="{{form_saved_data.birth_other_district}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" id="taluka_birth_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="birth_other_taluka">Birth Taluka<span id="birth_taluka" style="color:red;"> </span> </label>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="birth_other_taluka"
+                                placeholder="Enter your birth place" name="birth_other_taluka"   
+                                {% if form_saved_data %} value="{{form_saved_data.birth_other_taluka}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6"  id="mulgaon_birth_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="birth_other_mulgaon">Birth Mulgaon<span id="birth_mulgaon" style="color:red;"> </span> </label>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="birth_other_mulgaon"
+                                placeholder="Enter your birth place" name="birth_other_mulgaon"   
+                                {% if form_saved_data %} value="{{form_saved_data.birth_other_mulgaon}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        
+                      </div>
+                      <div class="row gy-4">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Education Details</span>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="passed_college_name">Passed College Name</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="passed_college_name" 
+                              name="passed_college_name" required  
+                              placeholder="Enter your college name from which you have passsed"
+                              {% if form_saved_data %} value="{{form_saved_data.passed_college_name}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Passed Education</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="passed_education" name="passed_education" required onchange="OtherPassedEducation(this)">
+                                {% if not form_saved_data.passed_education %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+  
+                                {% for passed_education in passed_education_type %} 
+                                  {% if form_saved_data.passed_education == passed_education.name %}
+                                    <option value="{{passed_education.name}}" selected>    
+                                    {{ passed_education.name }}
+                                  </option>
+                                  {% else %}
+                                  <option value="{{passed_education.name}}">{{passed_education.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" id="passed_education_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_passed_Education">Other Passed Education</label>
+                            <span style="color:red;" id="other_passed_Education_red_dot">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_passed_Education"
+                               name="other_passed_Education" placeholder = "Enter your passed education here" 
+                               {% if form_saved_data.other_passed_education %} value="{{ form_saved_data.other_passed_education }}" {% endif%}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="passed_education_percentage">Passed Education Percentage</label>
+                            <span style="color:red;">*</span>
+                            <input type="text" pattern="\d+(\.\d{1,2})?" class="form-control field" id="passed_education_percentage" name="passed_education_percentage"  placeholder="Enter your percentage" 
+                            required
+                            {% if form_saved_data.passed_education_percentage == 0.0 %} value="" {% else %} value="{{form_saved_data.passed_education_percentage}}" {% endif %}>
+                            <!-- {% if form_saved_data %} value="{{form_saved_data.passed_education_percentage}}" {% else %} value="0.0" {% endif %}-->
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="passed_education_marksheet">Passed Education Marksheet</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.passed_education_marksheet %}
+                              <a href="{{form_saved_data.passed_education_marksheet.url}}" target="_blank">{{form_saved_data.passed_education_marksheet}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="passed_education_marksheet" name="passed_education_marksheet" accept=".pdf" onchange="validateFile(this)" {% if not form_saved_data.passed_education_marksheet %} required {% endif %}
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label field" for="passed_education_marksheet">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Current course of education for which you are applying scholarship</label>
+                              <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="current_education" name="current_education" required onchange="OtherCurrentEducation(this)">
+                                {% if not form_saved_data.current_education %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+                                {% for current_education in current_education_type %}
+                                  {% if form_saved_data.current_education == current_education.name %}
+                                    <option value="{{current_education.name}}" selected>    
+                                    {{ current_education.name }}
+                                  </option>
+                                  {% else %}
+                                  <option value="{{current_education.name}}">{{current_education.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6" id="current_education_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_current_education" >Other Current Education</label>
+                            <span style="color:red;" id="other_current_education_red_dot">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" 
+                              id="other_current_education"
+                               name="other_current_education" placeholder = "Enter your current education here"
+                               {% if form_saved_data.other_current_education %} value="{{ form_saved_data.other_current_education }}" {% endif%}>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gy-4">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Teacher Recommendation</span>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="teacher_one">Teacher Recommendation One</label>
+                              <span style="color:red;">*</span>
+                              <div class="form-control-wrap">
+                                {% if form_saved_data.teacher_one %}
+                                <a href="{{form_saved_data.teacher_one.url}}" target="_blank">{{form_saved_data.teacher_one}}</a>
+                                {% endif %}
+                                <div class="form-file">
+                                  <input type="file" class="form-file-input field" id="teacher_one" name="teacher_one" accept=".pdf" onchange="validateFile(this)" {% if not form_saved_data.teacher_one %} required {% endif %}
+                                  onchange="validateFileTypeSize(this)">
+                                  <label class="form-file-label field" for="teacher_one">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="teacher_two">Teacher Recommendation Two:</label>
+                              <span style="color:red;">*</span>
+                              <div class="form-control-wrap">
+                                {% if form_saved_data.teacher_two %}
+                                <a href="{{form_saved_data.teacher_two.url}}" target="_blank">{{form_saved_data.teacher_two}}</a>
+                                {% endif %}
+                                <div class="form-file">
+                                  <input type="file" class="form-file-input field" id="teacher_two" name="teacher_two" accept=".pdf" onchange="validateFile(this)" {% if not form_saved_data.teacher_two %} required {% endif %} 
+                                  onchange="validateFileTypeSize(this)">
+                                  <label class="form-file-label field" for="teacher_two">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                      <div class="row gy-4">
+                        <span class="preview-title-lg overline-title" style="margin-top:60px">Acedemic Details</span>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="college_distance">How far is your college from your Home</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="college_distance"
+                                placeholder="Enter distance from home to college" name="college_distance" required pattern="\d+(\.\d{1,2})?"
+                                {% if form_saved_data %} value="{{form_saved_data.college_distance}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="college_travel_vehical">How do you commute to college daily</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="college_travel_vehical"
+                                placeholder="Enter Mode of transportation to college" name="college_travel_vehical" required
+                                {% if form_saved_data %} value="{{form_saved_data.college_travel_vehical}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="college_expenditure_tohome">What is the daily expenditure on commuting to college and back home ? <span style="color:red;">*</span></label>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="college_expenditure_tohome" pattern="\d+(\.\d{1,2})?"
+                                placeholder="Daily commuting expenses between college and home" name="college_expenditure_tohome" required
+                                {% if form_saved_data %} value="{{form_saved_data.college_expenditure_tohome}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="tuition_fee">Annual Tuition Fee (Please write NA if this is not applicable to you) <span style="color:red;">*</span></label>
+                           
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="tuition_fee"
+                                placeholder="Enter your annual tuition fee" name="tuition_fee" required
+                                {% if form_saved_data %} value="{{form_saved_data.tuition_fee}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="cost_books">Cost of books and notebooks</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="cost_books"
+                                placeholder="Enter your cost of books and notebooks" name="cost_books" required pattern="\d+(\.\d{1,2})?"
+                                {% if form_saved_data %} value="{{form_saved_data.cost_books}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label" for="cost_uniform">Cost of Uniform (Please write NA if this is not applicable to you)<span style="color:red;">*</span></label>
+                            
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="cost_uniform"
+                                placeholder="Enter cost of uniform" name="cost_uniform" required
+                                {% if form_saved_data %} value="{{form_saved_data.cost_uniform}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="academic_year_cost_travel">Estimated cost of commuting to college for this academic year</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="academic_year_cost_travel"
+                                placeholder="Academic year commuting expenses between college and home" name="academic_year_cost_travel" required pattern="\d+(\.\d{1,2})?"
+                                {% if form_saved_data %} value="{{form_saved_data.academic_year_cost_travel}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="hostel_fees">Hostel fees (Please write NA if this is not applicable to you)</label>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="hostel_fees"
+                                placeholder="Enter your hostel fees" name="hostel_fees"
+                                {% if form_saved_data %} value="{{form_saved_data.hostel_fees}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <hr class="preview-hr"> -->
+                        <span class="preview-title-lg overline-title">Family details</span>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="family_details">List of names of all the family members whom you stay with in house, also state their relationship with you. <span style="color:red;">*</span></label>
+                            <div class="form-control-wrap">
+                              <textarea rows="4" cols="50" class="form-control field" id="family_details" placeholder="Enter your family details" name="family_details" required {% if form_saved_data %}value=" {{form_saved_data.family_details}}"{% endif %}>{% if form_saved_data%}{{form_saved_data.family_details}}{% endif %}</textarea>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="family_income">List the names of the family members who earn (have income). Kindly specify yearly income of everyone.
+                            <span style="color:red;">*</span></label>
+                            
+                            <div class="form-control-wrap">
+                              <textarea rows="4" cols="50" class="form-control field" id="family_income" placeholder="Enter your family details" name="family_income" required {% if form_saved_data %} value ="{{form_saved_data.family_income}}"{% endif %}>{% if form_saved_data%}{{form_saved_data.family_income}}{% endif %}</textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gy-4 align-center">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Other Details</span>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Have you received this scholarship before ?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="is_application_received_previously" name="is_application_received_previously" class="form-control" required>
+                                {% if form_saved_data.is_application_received_previously == True %}
+                                    <option value=True selected>Yes</option>
+                                    <option value=False>No</option>  
+                                {% elif form_saved_data.is_application_received_previously == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+
+                                {% endif %}
+
+                            </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Have you received loan before ?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="is_loan_received" name="is_loan_received" required>
+                                {% if form_saved_data.is_loan_received == True %}
+                                    <option value=True selected>Yes</option>
+                                    <option value=False>No</option>  
+                                {% elif form_saved_data.is_loan_received == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- <div class="col-sm-6">
+                              <div class="form-group">
+                                <label class="form-label" for="loan_amount_willing">How much loan do you willing to avail</label>
+                                <span style="color:red;">*</span>
+                                <div class="form-control-wrap">
+                                  <input type="number" class="form-control field" id="loan_amount_willing"
+                                 name="loan_amount_willing" placeholder="Enter loan amount you willing to avail" 
+                                 {% if form_saved_data %} value="{{form_saved_data.loan_amount_willing}}" {% else %} value="" {% endif %} required>
+                                </div>
+                              </div>
+                        </div>    
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="current_education_fee">What's your current education fees</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="number" class="form-control field" 
+                              id="current_education_fee"
+                              placeholder="Enter your current education fees" name="current_education_fee" required
+                              {% if form_saved_data %} value="{{form_saved_data.current_education_fee}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div> -->
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Have you received Scholarship from other organization?<span style="color:red;">*</span></label>
+                            <div class="form-control-wrap">
+                              <select class="form-select field"  id="is_other_sch_received" name="is_other_sch_received" onchange="OtherScholarship(this)" required>
+                                <!-- {% if not form_saved_data.is_other_sch_received %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                {% if form_saved_data.is_other_sch_received == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% elif form_saved_data.is_other_sch_received == False %}
+                                <option value=True>Yes</option>
+                                <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="other_sch_received_amt">How much amount you have received?</label>
+                            <span style="color:red;" id="other_sch_required"></span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_sch_received_amt" pattern="\d+(\.\d{1,2})?"
+                                placeholder="Enter your amount" name="other_sch_received_amt"
+                                {% if form_saved_data %} value="{{form_saved_data.other_sch_received_amt}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Are you a "specially abled" candidate ?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field"  id="is_disablity_candidate" name="is_disablity_candidate" required  onchange="CandidateValidation(this)">
+                                <!-- {% if not form_saved_data.is_disablity_candidate %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                {% if form_saved_data.is_disablity_candidate == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% elif form_saved_data.is_disablity_candidate == False %}
+                                <option value=True>Yes</option>
+                                <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="disablity_certificate">Upload certificate from doctor. The certificate must have name and contact number of the certifying doctor clearly written. <span id="candidate_required" style="color:red;"></span></label>
+                            <div class="form-control-wrap">
+                              <div class="form-file">
+                              {% if form_saved_data.disablity_certificate %}
+                              <a href="{{ form_saved_data.disablity_certificate.url }}" target="_blank" id="disablity_certificate_anchor">{{ form_saved_data.disablity_certificate.name }}</a>
+                              {% endif %}
+                            <div class="form-control-wrap">
+                            <div class="form-file">
+                             <input type="file" id="disablity_certificate" name="disablity_certificate" class="form-file-input field" accept=".pdf" onchange="validateFile(this)"
+                             {% if not form_saved_data.disablity_certificate %} required {%endif%}
+                             onchange="validateFileTypeSize(this)">
+                              <label class="form-file-label" for="disablity_certificate">Choose file</label>
+                              </div>
+                            </div>
+                            </div>
+                          </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Do you belong to "Under Poverty Line" Category?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field"  id="is_poverty_line" name="is_poverty_line" required  onchange="CandidatePoverty(this)">
+                                <!-- {% if not form_saved_data.is_poverty_line %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                
+                                {% if form_saved_data.is_poverty_line == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+  
+                                {% elif form_saved_data.is_poverty_line == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                                
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                      
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="upload_certificate_poverty_line">Upload certificate of "Below Poverty line" (दारिद्र्य रेषेखालील दाखला.) <span id="poverty_required" style="color:red;"></span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.upload_certificate_poverty_line %}
+                              <a href="{{form_saved_data.upload_certificate_poverty_line.url}}"  target="_blank" id="poverty_line_anchor">{{form_saved_data.upload_certificate_poverty_line}}</a>
+                              
+                              {% endif %}
+                              <div class="form-file">   
+                                <input type="file" class="form-file-input field" id="upload_certificate_poverty_line" name="upload_certificate_poverty_line" accept=".pdf"{% if not form_saved_data.upload_certificate_poverty_line %} required  {% endif %} 
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Do you have certificates in sports, elocution etc. in last 3 years (only during year 2020 to 2023).<span style="color:red;">*</span></label>
+                            
+                            <div class="form-control-wrap">
+                             <select class="form-select field" id="is_certificate_sports" name="is_certificate_sports" required onchange="Sportvalidation(this)">
+                               <!-- {% if not form_saved_data.is_certificate_sports %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                {% if form_saved_data.is_certificate_sports == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% elif form_saved_data.is_certificate_sports == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="upload_certificate_sports">Upload certificates in sports, elocution etc in last 3 years only (year 2020 to 2023). Kindly make one pdf in case you have more than one certificated <span id="sport_required" style="color:red;"></span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.upload_certificate_sports %}
+                              <a href="{{form_saved_data.upload_certificate_sports.url}}" target="_blank" id="upload_certificate_sports_anchor">{{form_saved_data.upload_certificate_sports}}</a>
+                              {% endif %}
+                              <div class="form-file">   
+                                <input type="file" class="form-file-input field" id="upload_certificate_sports" name="upload_certificate_sports" accept=".pdf" {% if not form_saved_data.upload_certificate_sports %} required {% endif %} 
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Does your mother/father have died on field serving the nation ?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" name="is_alive" id="is_alive" onchange="Servicevalidation(this)" required>
+                                <!-- {% if not form_saved_data.is_alive %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                {% if form_saved_data.is_alive == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% elif form_saved_data.is_alive == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="upload_certificate_isalive">Upload the certificate for serving the nation <span id="service_required" style="color:red;"></span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.upload_certificate_isalive %}
+                              <a href="{{form_saved_data.upload_certificate_isalive.url}}" id="upload_certificate_isalive_anchor">{{form_saved_data.upload_certificate_isalive}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="upload_certificate_isalive" name="upload_certificate_isalive"accept=".pdf" {% if not form_saved_data.upload_certificate_isalive %} required {% endif %}
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label">Are you a district level player in the recognised games ?</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" name="is_district_level_player"  id ="is_district_level_player" required onchange="DistrictLevelPlayer(this)">
+                                <!-- {% if not form_saved_data.is_district_level_player %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %} -->
+                                {% if form_saved_data.is_district_level_player == True %}
+                                  <option value=True selected>Yes</option>
+                                  <option value=False>No</option>  
+                                {% elif form_saved_data.is_district_level_player == False %}
+                                  <option value=True>Yes</option>
+                                  <option value=False selected>No</option>
+                                {% else %}
+                                  <option value="" selected disabled>--select--</option> 
+                                  <option value=True>Yes</option>
+                                  <option value=False>No</option>
+                                {% endif %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="upload_certificate_district_level">Kindly upload the document stating that you have played state level matches in the recognised game/s. In case you have more than on certificate, kindly create one pdf and then upload. <span class="text-danger" id="districtlevel_required"></span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.upload_certificate_district_level %}
+                              <a href="{{form_saved_data.upload_certificate_district_level.url}}" target="_blank" id="upload_certificate_district_level_anchor">{{form_saved_data.upload_certificate_district_level}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="upload_certificate_district_level" name="upload_certificate_district_level" accept=".pdf" {% if not form_saved_data.upload_certificate_district_level %} required {% endif %}
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="upload_parent_teacher_certificate">Upload the document which from the school in which your father/mother are/were teacher/s. In case both parents are/were teachers, make one pdf of both documents before you upload.<span id="parent_teacher_required" style="color:red;"></span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.upload_parent_teacher_certificate %}
+                              <a href="{{form_saved_data.upload_parent_teacher_certificate.url}}"  target="_blank" id="parent_teacher_anchor">{{form_saved_data.upload_parent_teacher_certificate}}</a>
+                              
+                              {% endif %}
+                              <div class="form-file">   
+                                <input type="file" class="form-file-input field" id="upload_parent_teacher_certificate" name="upload_parent_teacher_certificate" accept=".pdf" 
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="fee_receipt">Fee receipt. In case of exemption from fees, attach bonafide certificate. (फी पावती. फी माफी असल्यास बोनाफाईड प्रमाणपत्र जोडावे)<span id="fee_receipt_required" style="color:red;">*</span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.fee_receipt %}
+                              <a href="{{form_saved_data.fee_receipt.url}}"  target="_blank" id="fee_receipt_anchor">{{form_saved_data.fee_receipt}}</a>
+                              
+                              {% endif %}
+                              <div class="form-file">   
+                                <input type="file" class="form-file-input field" id="fee_receipt" name="fee_receipt" accept=".pdf"{% if not form_saved_data.fee_receipt %} required  {% endif %} 
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gy-4 align-center">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Loan
+                          Details</span>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="loan_amount">How much loan do you willing to avail ?</label>
+                              <span style="color:red;">*</span>
+                              <div class="form-control-wrap">
+                                <input type="number" class="form-control field" id="loan_amount" name="loan_amount" placeholder="Enter your loan amount" required 
+                              {% if form_saved_data %} value="{{form_saved_data.loan_amount}}" {% else %} value="" {% endif %}>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="current_education_fee">What's your current education fees</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="number" class="form-control field" 
+                              id="current_education_fee"
+                              placeholder="Enter your current education fees" name="current_education_fee" required
+                              {% if form_saved_data %} value="{{form_saved_data.current_education_fee}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                          <!-- <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="self_declaration_form">Student Self Declaration</label><span style="color:red;">*</span>
+                            {% if form_saved_data.self_declaration_form %}
+                            <a href="{{form_saved_data.self_declaration_form.url}}" target="_blank">{{form_saved_data.self_declaration_form.name}}</a>
+                            {% endif %}
+                            <div class="form-control-wrap">
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="self_declaration_form" name="self_declaration_form" accept=".pdf" 
+                                {% if not form_saved_data.self_declaration_form %} required {% endif %}>
+                                <label class="form-file-label" for="self_declaration_form">Choose file</label>
+                                </div>
+                              </div>
+                            </div>
+                          </div> -->
+                        <!-- <div class="text-danger">Note: Atleast one guarantor should not be having blood relation</div>
+                        <span class="preview-title-lg overline-title">First Guarantor Details</span>
+                          <div class="col-sm-5">
+                            <div class="form-group">
+                              <label class="form-label" for="guarantor_name_one">First Guarantor Name</label>
+                              <span style="color:red;">*</span>
+                              <div class="form-control-wrap">
+                                <input type="text" class="form-control field" id="guarantor_name_one" name="guarantor_name_one" placeholder="Enter guarantor name"     
+                              required {% if form_saved_data %} value="{{form_saved_data.guarantor_name_one}}" {% else %} value="" {% endif %}>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-7">
+                            <div class="form-group">
+                              <label class="form-label" for="gurantour_address">First Guarantor Address</label><span style="color:red;">*</span>
+                              <div class="form-control-wrap"> 
+                                <input type="text" class="form-control field" id="guarantor_address_one" name="guarantor_address_one" placeholder="Enter guarantor address" required
+                              {% if form_saved_data %} value="{{form_saved_data.guarantor_address_one}}" {% else %} value="" {% endif %}>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="guarantor_mobile">First Guarantor Mobile Number</label><span style="color:red;">*</span>
+                              <div class="form-control-wrap">
+                                <input type="tel" class="form-control field" id="guarantor_mobile_one" name="guarantor_mobile_one" placeholder="Enter guarantor mobile number" 
+                              required  maxlength="13"
+                              {% if form_saved_data %} value="{{form_saved_data.guarantor_mobile_one}}" {% else %} value="+91" {% endif %}>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-6">
+                            <div class="form-group">
+                              <label class="form-label" for="guarantor_certificate">First Guarantor Certificate for Student</label><span style="color:red;">*</span>
+                            {% if form_saved_data.guarantor_certificate_one %}
+                              <a href="{{form_saved_data.guarantor_certificate_one.url}}" target="_blank">{{form_saved_data.guarantor_certificate_one}}</a>
+                            {% endif %}
+                            <div class="form-control-wrap">
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="guarantor_certificate_one" name="guarantor_certificate_one" accept=".pdf"
+                                {% if not form_saved_data.guarantor_certificate_one %} required {% endif %}>
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                           </div>
+                          </div>
+
+                        <span class="preview-title-lg overline-title">Second Guarantor Details</span>
+                        <div class="col-sm-5">
+                          <div class="form-group">
+                            <label class="form-label" for="guarantor_name_two">Second Guarantor Name</label><span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                               <input type="text" class="form-control field" id="guarantor_name_two" name="guarantor_name_two" placeholder="Enter guarantor name"   
+                              required {% if form_saved_data %} value="{{form_saved_data.guarantor_name_two}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-7">
+                          <div class="form-group">
+                            <label class="form-label" for="guarantor_address_one">Second Guarantor Address</label><span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="guarantor_address_two" name="guarantor_address_two"  placeholder="Enter guarantor address" required
+                            {% if form_saved_data %} value="{{form_saved_data.guarantor_address_two}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="guarantor_mobile_two">Second Guarantor Mobile Number</label><span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="tel" class="form-control field" id="guarantor_mobile_two" name="guarantor_mobile_two" placeholder="Enter guarantor mobile number"  
+                              required  maxlength="13"
+                              {% if form_saved_data %} value="{{form_saved_data.guarantor_mobile_two}}" {% else %} value="+91" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="guarantor_certificate_two">Second Guarantor Certificate for Student</label><span style="color:red;">*</span>
+                            {% if form_saved_data.guarantor_certificate_two %}
+                              <a href="{{form_saved_data.guarantor_certificate_two.url}}" target="_blank">{{form_saved_data.guarantor_certificate_two.name}}</a>
+                            {% endif %}
+                            <div class="form-control-wrap">
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="guarantor_certificate_two" name="guarantor_certificate_two"  accept=".pdf"
+                                {% if not form_saved_data.guarantor_certificate_two %} required {% endif %}>
+                                <label class="form-file-label" for="customFile">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div> -->
+                      </div>
+                     <div class="row gy-4 align-center">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Documents Upload</span>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="aadhar_card">Aadhar Card</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.aadhar_card %}
+                              <a href="{{form_saved_data.aadhar_card.url}}" target="_blank">{{form_saved_data.aadhar_card}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="aadhar_card" name="aadhar_card" accept=".pdf"  onchange="validateFile(this)" {% if not form_saved_data.aadhar_card %} required {% endif %}
+                                onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="aadhar_card">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="income_certificate">Income certificate. (Kindly make one pdf in case you have more than one income certificate)<span style="color:red;">*</span></label>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.income_certificate %}
+                              <a href="{{form_saved_data.income_certificate.url}}" target="_blank">{{form_saved_data.income_certificate}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file"  class="form-file-input field" id="income_certificate" name="income_certificate" accept=".pdf"
+                                 onchange="validateFile(this)" 
+                                 {% if not form_saved_data.income_certificate %} required {% endif %} onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="income_certificate">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="address_proof">Address Proof</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.address_proof %}
+                              <a href="{{form_saved_data.address_proof.url}}" target="_blank">{{form_saved_data.address_proof}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="address_proof" name="address_proof" accept=".pdf"
+                                 onchange="validateFile(this)" 
+                                 {% if not form_saved_data.address_proof %} required {% endif %} onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="address_proof">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="bonafide_certificate">Bonafide Certificate</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.bonafide_certificate %}
+                              <a href="{{form_saved_data.bonafide_certificate.url}}" target="_blank">{{form_saved_data.bonafide_certificate}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file"  class="form-file-input field" id="bonafide_certificate" name="bonafide_certificate" accept=".pdf" 
+                                onchange="validateFile(this)" 
+                               {% if not form_saved_data.bonafide_certificate %} required {% endif %} onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="bonafide_certificate">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="ration_card">Ration Card</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              {% if form_saved_data.ration_card %}
+                              <a href="{{form_saved_data.ration_card.url}}" target="_blank">{{form_saved_data.ration_card}}</a>
+                              {% endif %}
+                              <div class="form-file">
+                                <input type="file" class="form-file-input field" id="ration_card" name="ration_card" accept=".pdf" onchange="validateFile(this)"  
+                                {% if not form_saved_data.ration_card %} required {% endif %} onchange="validateFileTypeSize(this)">
+                                <label class="form-file-label" for="ration_card">Choose file</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row gy-4">
+                        <span class="preview-title-lg overline-title" style="padding-top: 33px;">Bank
+                          Details</span>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="bank_name">Name of Bank</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="bank_name"
+                                placeholder="Enter name of Bank" name="bank_name" required
+                                {% if form_saved_data %} value="{{form_saved_data.bank_name}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="account_no">Account Number</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="account_no"
+                                placeholder="Enter the account number" title="Enter proper account number" name="account_no" required pattern="[0-9]{6,20}" maxlength="20" 
+                                {% if form_saved_data %} value="{{form_saved_data.account_no}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="account_holder">Account Holder Name</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="account_holder"
+                                placeholder="Enter account holder name" name="account_holder" required
+                                {% if form_saved_data %} value="{{form_saved_data.account_holder}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="branch_name">Branch Name</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="branch_name"
+                                placeholder="Enter branch name" name="branch_name" required
+                                {% if form_saved_data %} value="{{form_saved_data.branch_name}}" {% else %} value="" {% endif %}>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-6">
+                          <div class="form-group">
+                            <label class="form-label" for="ifsc_code">IFSC code</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="ifsc_code"
+                                placeholder="Enter IFSC code" name="ifsc_code" required
+                                {% if form_saved_data %} value="{{form_saved_data.ifsc_code}}" {% else %} value="" {% endif %} maxlength="11" minlength="11">
+                            </div>
+                          </div>
+                        </div>             
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-sm-3">
+                           <button class="btn btn-lg-block btn-outline-primary" 
+                            name = "action" id="save" value="save" formnovalidate>Save</button>
+                          <button class="btn btn-lg-block btn-primary" id="submit" name= "action" value="submit">Submit</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+        <!-- content @e -->
+    </div>
+  <!-- wrap @e -->
+</div>
+<!-- main @e -->
+</div>
+  <script>
+      // if(document.getElementById('is_disablity_candidate').value == "True") {
+      //   document.getElementById('disablity_certificate').setAttribute('required' , ''); 
+      //   document.getElementById('candidate_required').innerHTML = " *" 
+      // }
+      if(document.getElementById('is_disablity_candidate').value == "False"){
+        document.getElementById('disablity_certificate').removeAttribute('required');
+        document.getElementById('candidate_required').innerHTML = "" 
+        }
+      // if(document.getElementById('is_certificate_sports').value == "True"){
+      //   document.getElementById('upload_certificate_sports').setAttribute('required' , ''); 
+      //   document.getElementById('sport_required').innerHTML = " *" 
+      // }
+       if(document.getElementById('is_certificate_sports').value == "False"){
+        document.getElementById('upload_certificate_sports').removeAttribute('required');
+        document.getElementById('sport_required').innerHTML = "" 
+      }
+      // if(document.getElementById('is_alive').value == "True") {
+      //   document.getElementById('upload_certificate_isalive').setAttribute('required' , ''); 
+      //   document.getElementById('service_required').innerHTML = " *" 
+      // }
+       if(document.getElementById('is_alive').value == "False") {
+        document.getElementById('upload_certificate_isalive').removeAttribute('required');
+        document.getElementById('service_required').innerHTML = "" 
+      }
+   
+      // if(document.getElementById('is_district_level_player').value == "True") {
+      //   document.getElementById('upload_certificate_district_level').setAttribute('required' , ''); 
+      //   document.getElementById('districtlevel_required').innerHTML = " *" 
+      // }
+      if(document.getElementById('is_district_level_player').value == "False") {
+        document.getElementById('upload_certificate_district_level').removeAttribute('required');
+        document.getElementById('districtlevel_required').innerHTML = "" 
+      }
+
+      if(document.getElementById('is_poverty_line').value == "False"){
+        document.getElementById('upload_certificate_poverty_line').removeAttribute('required');
+        document.getElementById('poverty_required').innerHTML = "" 
+      }
+   
+      if(document.getElementById('is_birth_place_different').value =="True"){
+        document.getElementById('district_birth_other').style.display = "block"
+        document.getElementById('birth_other_district').setAttribute('required',''); 
+        document.getElementById('birth_district').innerHTML = "*"
+
+        document.getElementById('taluka_birth_other').style.display = "block"
+        document.getElementById('birth_other_taluka').setAttribute('required',''); 
+        document.getElementById('birth_taluka').innerHTML = "*"
+
+        document.getElementById('mulgaon_birth_other').style.display = "block"
+        document.getElementById('birth_other_mulgaon').setAttribute('required',''); 
+        document.getElementById('birth_mulgaon').innerHTML = "*"
+
+      }
+      else{
+
+        document.getElementById('district_birth_other').style.display = "none"
+        document.getElementById('birth_other_district').removeAttribute('required'); 
+        document.getElementById('birth_district').innerHTML = ""
+
+        document.getElementById('taluka_birth_other').style.display = "none"
+        document.getElementById('birth_other_taluka').removeAttribute('required'); 
+        document.getElementById('birth_taluka').innerHTML = ""
+
+        document.getElementById('mulgaon_birth_other').style.display = "none"
+        document.getElementById('birth_other_mulgaon').removeAttribute('required'); 
+        document.getElementById('birth_mulgaon').innerHTML = ""
+      }
+   
+  </script>
+  <script>
+    value = document.getElementById("passed_education").options[document.getElementById("passed_education").selectedIndex].text;
+    console.log("value", value)
+
+    var other_passed_Education = document.getElementById('other_passed_Education')
+    console.log("---", other_passed_Education)
+
+    if(value == 'Other'){
+      document.getElementById('passed_education_other').style.display = "block";
+
+      other_passed_Education.style.display = "block";
+      other_passed_Education.setAttribute('required','');
+      document.getElementById('other_passed_Education_red_dot').innerHTML = "*" 
+    }
+    else{
+      document.getElementById('passed_education_other').style.display = "none";
+
+      other_passed_Education.style.display = "none";
+      other_passed_Education.removeAttribute('required');
+      document.getElementById('other_passed_Education_red_dot').innerHTML = ""
+
+    }
+
+</script>
+<script>
+    value = document.getElementById("current_education").options[document.getElementById("current_education").selectedIndex].text;
+
+    console.log("value", value)
+    var other_current_education = document.getElementById('other_current_education')
+    
+    if(value == 'Other'){
+      document.getElementById('current_education_other').style.display = "block";
+
+      other_current_education.style.display = "block";
+      other_current_education.setAttribute('required','');
+      document.getElementById('other_current_education_red_dot').innerHTML = "*"
+
+    }
+    else{
+      document.getElementById('current_education_other').style.display = "none";
+
+      other_current_education.style.display = "none";
+      other_current_education.removeAttribute('required');
+      document.getElementById('other_current_education_red_dot').innerHTML = ""
+    }
+</script>
+<!-- start :: on load other district and taluka -->
+ <script>
+    var x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+    console.log("x:",x)
+    var other = document.getElementById('other')
+    var taluka_other = document.getElementById('taluka_other')
+
+    if(x === "Other"){
+      document.getElementById("div_taluka").style.display = "none";
+      document.getElementById('taluka').removeAttribute('required');
+      document.getElementById('taluka_red_dot').innerHTML = ""
+
+      other.style.display = "block";
+      document.getElementById('other_district').setAttribute('required','')
+      document.getElementById('other_district_red_dot').innerHTML = "*"
+      
+
+      taluka_other.style.display = "block";
+      document.getElementById('other_taluka').setAttribute('required','')
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+       
+      
+    }
+    else{
+      var y = document.getElementById("taluka").options[document.getElementById("taluka").selectedIndex].text;
+      if (y === "Other"){
+        taluka_other.style.display = "block";
+        document.getElementById('other_taluka').setAttribute('required','')
+        document.getElementById('other_taluka_red_dot').innerHTML = "*"
+      }
+      else{
+        taluka_other.style.display = "none";
+        document.getElementById('other_taluka').removeAttribute('required')
+        document.getElementById('other_taluka_red_dot').innerHTML = ""
+      }
+
+
+      document.getElementById("div_taluka").style.display = "block";
+      document.getElementById('taluka').setAttribute('required', '');
+      document.getElementById('taluka_red_dot').innerHTML = "*" 
+      
+      other.style.display = "none";
+      document.getElementById('other_district').removeAttribute('required')
+      document.getElementById('other_district_red_dot').innerHTML = ""
+
+    }
+  </script>
+<!-- end :: on load other district and taluka -->
+  <script>
+  value = document.getElementById("passed_education").options[document.getElementById("passed_education").selectedIndex].text;
+  console.log("value", value)
+
+  var other_passed_Education = document.getElementById('other_passed_Education')
+  console.log("---", other_passed_Education)
+
+  if(value == 'Other'){
+    document.getElementById('passed_education_other').style.display = "block";
+
+    other_passed_Education.style.display = "block";
+    other_passed_Education.setAttribute('required','');
+    document.getElementById('other_passed_Education_red_dot').innerHTML = "*" 
+  }
+  else{
+    document.getElementById('passed_education_other').style.display = "none";
+
+    other_passed_Education.style.display = "none";
+    other_passed_Education.removeAttribute('required');
+    document.getElementById('other_passed_Education_red_dot').innerHTML = ""
+
+  }
+
+</script>
+<script>
+  value = document.getElementById("current_education").options[document.getElementById("current_education").selectedIndex].text;
+
+  console.log("value", value)
+  var other_current_education = document.getElementById('other_current_education')
+  
+  if(value == 'Other'){
+    document.getElementById('current_education_other').style.display = "block";
+
+    other_current_education.style.display = "block";
+    other_current_education.setAttribute('required','');
+    document.getElementById('other_current_education_red_dot').innerHTML = "*"
+
+  }
+  else{
+    document.getElementById('current_education_other').style.display = "none";
+
+    other_current_education.style.display = "none";
+    other_current_education.removeAttribute('required');
+    document.getElementById('other_current_education_red_dot').innerHTML = ""
+  }
+</script>
+
+<!-- Onload :: Yes/No Validations of Select Dropdown-->
+<script>
+  value = document.getElementById("is_birth_place_different").options[document.getElementById("is_birth_place_different").selectedIndex].value;
+  console.log("is_birth_place_different:-",value)
+  if(value == "True") {
+    document.getElementById('district_birth_other').style.display = "block"
+    document.getElementById('birth_other_district').setAttribute('required' , ''); 
+    document.getElementById('birth_district').innerHTML = " *"
+
+    document.getElementById('taluka_birth_other').style.display = "block"
+    document.getElementById('birth_other_taluka').setAttribute('required' , ''); 
+    document.getElementById('birth_taluka').innerHTML = " *"
+
+    document.getElementById('mulgaon_birth_other').style.display = "block"
+    document.getElementById('birth_other_mulgaon').setAttribute('required' , ''); 
+    document.getElementById('birth_mulgaon').innerHTML = " *"
+  }
+  else { 
+    document.getElementById('district_birth_other').style.display = "none"
+    document.getElementById('birth_other_district').removeAttribute('required'); 
+    document.getElementById('birth_district').innerHTML = ""
+
+    document.getElementById('taluka_birth_other').style.display = "none"
+    document.getElementById('birth_other_taluka').removeAttribute('required'); 
+    document.getElementById('birth_taluka').innerHTML = ""
+
+    document.getElementById('mulgaon_birth_other').style.display = "none"
+    document.getElementById('birth_other_mulgaon').removeAttribute('required'); 
+    document.getElementById('birth_mulgaon').innerHTML = ""
+  }
+
+  value = document.getElementById("is_other_sch_received").options[document.getElementById("is_other_sch_received").selectedIndex].value;
+  console.log("is_other_sch_received:-",value)
+  if(value == "True") {
+    document.getElementById('other_sch_received_amt').setAttribute('required' , ''); 
+    document.getElementById('other_sch_required').innerHTML = " *" 
+  }
+  else { 
+    document.getElementById('other_sch_received_amt').removeAttribute('required');
+    document.getElementById('other_sch_required').innerHTML = "" 
+  }
+
+  value = document.getElementById("is_disablity_candidate").options[document.getElementById("is_disablity_candidate").selectedIndex].value;
+  console.log("is_disablity_candidate:-",value)
+  if(value == "True") {
+    var cert = document.getElementById('disablity_certificate_anchor')
+    if (cert === null){
+      document.getElementById('disablity_certificate').setAttribute('required' , ''); 
+      document.getElementById('candidate_required').innerHTML = " *" 
+    }
+    else{
+      document.getElementById('disablity_certificate').removeAttribute('required');
+      document.getElementById('candidate_required').innerHTML = ""
+    }
+    
+  }
+  else { 
+    document.getElementById('disablity_certificate').removeAttribute('required');
+    document.getElementById('candidate_required').innerHTML = "" 
+  }
+
+  value = document.getElementById("is_certificate_sports").options[document.getElementById("is_certificate_sports").selectedIndex].value;
+  console.log("is_certificate_sports:-",value)
+  if(value == "True") {
+
+    var cert = document.getElementById('upload_certificate_sports_anchor')
+    console.log("----",cert)
+    if (cert === null){
+      console.log("inside null")
+      document.getElementById('upload_certificate_sports').setAttribute('required' , ''); 
+      document.getElementById('sport_required').innerHTML = " *" 
+    }
+    else{
+      console.log("Inside else")
+      document.getElementById('upload_certificate_sports').removeAttribute('required');
+      document.getElementById('sport_required').innerHTML = ""
+    }
+    
+  }
+  else { 
+    console.log("Main else")
+    document.getElementById('upload_certificate_sports').removeAttribute('required');
+    document.getElementById('sport_required').innerHTML = "" 
+  }
+
+  value = document.getElementById("is_alive").options[document.getElementById("is_alive").selectedIndex].value;
+  console.log("is_alive:-",value)
+  if(value == "True") {
+    var cert = document.getElementById('upload_certificate_isalive_anchor')
+    if (cert === null){
+      document.getElementById('upload_certificate_isalive').setAttribute('required' , ''); 
+      document.getElementById('service_required').innerHTML = " *" 
+    }
+    else{
+      document.getElementById('upload_certificate_isalive').removeAttribute('required');
+      document.getElementById('service_required').innerHTML = ""
+    }
+    
+    
+  }
+  else { 
+    document.getElementById('upload_certificate_isalive').removeAttribute('required');
+    document.getElementById('service_required').innerHTML = "" 
+  }
+
+  value = document.getElementById("is_district_level_player").options[document.getElementById("is_district_level_player").selectedIndex].value;
+  console.log("is_district_level_player:-",value)
+  if(value == "True") {
+    var cert = document.getElementById('upload_certificate_district_level_anchor')
+    if (cert === null){
+      document.getElementById('upload_certificate_district_level').setAttribute('required' , ''); 
+      document.getElementById('districtlevel_required').innerHTML = " *" 
+    }
+    else{
+      document.getElementById('upload_certificate_district_level').removeAttribute('required');
+      document.getElementById('districtlevel_required').innerHTML = "" 
+    }
+    
+  }
+  else { 
+    document.getElementById('upload_certificate_district_level').removeAttribute('required');
+    document.getElementById('districtlevel_required').innerHTML = "" 
+  }
+
+  value = document.getElementById("is_poverty_line").options[document.getElementById("is_poverty_line").selectedIndex].value;
+  console.log("is_poverty_line:-",value)
+  if(value == "True") {
+    var cert = document.getElementById('poverty_line_anchor')
+    if (cert === null){
+      document.getElementById('upload_certificate_poverty_line').setAttribute('required' , ''); 
+      document.getElementById('poverty_required').innerHTML = " *" 
+    }
+    else{
+      document.getElementById('upload_certificate_poverty_line').removeAttribute('required');
+      document.getElementById('poverty_required').innerHTML = "" 
+    }
+    
+  }
+  else { 
+    document.getElementById('upload_certificate_poverty_line').removeAttribute('required');
+    document.getElementById('poverty_required').innerHTML = "" 
+  }
+
+</script>
+
+<!-- required -->
+<script>
+function remove_input_attribute() {
+  const inputs = document.querySelectorAll('.field');
+  console.log("Inside functionnnn")
+
+  for (const input of inputs) {
+    if (input.id === 'st_sch_form_session') {
+      // ✅ Set required attribute
+      input.setAttribute('required', 'required');
+    } else {
+      // ❌ Remove required attribute
+      input.removeAttribute('required');
+    }
+  }
+}
+</script>
+<!-- required -->
+
+
+<!-- Scrollable text starts -->
+<style>
+    #scroll-container {
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  #scroll-text {
+    text-align: right;
+    color: red;
+    font-size: 16px;
+    -moz-transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
+    transform: translateX(-100%);
+    
+    -moz-animation: my-animation 15s linear infinite;
+    -webkit-animation: my-animation 15s linear infinite;
+    animation: my-animation 15s linear infinite;
+  }
+
+  @-moz-keyframes my-animation {
+    from { -moz-transform: translateX(-100%); }
+    to { -moz-transform: translateX(100%); }
+  }
+
+  @-webkit-keyframes my-animation {
+    from { -webkit-transform: translateX(-100%); }
+    to { -webkit-transform: translateX(100%); }
+  }
+
+  @keyframes my-animation {
+    from {
+      -moz-transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+    }
+    to {
+      -moz-transform: translateX(100%);
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+  }
+</style>
+<!-- Scrollable text ends -->
+
+
+<style>
+.input-container {
+  position: relative;
+}
+
+.error-message {
+  color: red;
+  position: absolute;
+  bottom: -1.5em;
+  left: 0;
+  font-size: 0.8em;
+}
+</style>
+
+<script>
+  function validateMarathiInput(event) {
+    const marathiRegex = /^[\u0900-\u097F\s]*$/; // Regular expression to match Marathi characters
+    const input = event.target;
+    
+    if (!marathiRegex.test(input.value)) {
+      input.setCustomValidity("Please enter only Marathi characters.");
+    } else {
+      input.setCustomValidity("");
+    }
+  }
+
+  document.getElementById("first_name_marathi").addEventListener("input", validateMarathiInput);
+  document.getElementById("middle_name_marathi").addEventListener("input", validateMarathiInput);
+  document.getElementById("last_name_marathi").addEventListener("input", validateMarathiInput);
+</script>
+
+<script>
+  function validateFile(input) {
+    var file = input.files[0];
+    var allowedExtensions = /(\.pdf)$/i;
+
+    if (!allowedExtensions.exec(file.name)) {
+      document.getElementById('error').innerHTML = 'Please choose a PDF file.';
+      input.value = '';
+      return false;
+    } else {
+      document.getElementById('error').innerHTML = '';
+      return true;
+    }
+  }
+
+</script>
+
+
+
+<script>
+  function DistrictValue(option){
+    value = option.value
+
+    var x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+    console.log("x:",x)
+    var other = document.getElementById('other')
+    var taluka_other = document.getElementById('taluka_other')
+
+    if(x === "Other"){
+      console.log("District if")
+      document.getElementById("div_taluka").style.display = "none";
+      document.getElementById('taluka').removeAttribute('required');
+      document.getElementById('taluka_red_dot').innerHTML = "";
+
+      other.style.display = "block";
+      document.getElementById('other_district').setAttribute('required','');
+      document.getElementById('other_district_red_dot').innerHTML = "*"
+      
+
+      taluka_other.style.display = "block";
+      document.getElementById('other_taluka').required = true;
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+       
+      
+    }
+    else{
+      console.log("District else")
+      document.getElementById("div_taluka").style.display = "block";
+      document.getElementById('taluka').setAttribute('required','');
+      document.getElementById('taluka_red_dot').innerHTML = "*" 
+      
+      other.style.display = "none";
+      document.getElementById('other_district').removeAttribute('required')
+      document.getElementById('other_district_red_dot').innerHTML = ""
+      console.log("other",other)
+
+      taluka_other.style.display = "none";
+      taluka_other.removeAttribute('required')
+      document.getElementById('other_taluka_red_dot').innerHTML = ""
+      console.log("tal other",other)
+
+    }
+
+
+
+    console.log(value)
+    var id = value
+    console.log("ID", id)
+    $.ajax({
+        method:'GET',
+        url: "{% url 'stloanguarantorformdetails' %}",
+        data:{
+            parent_id:id,
+            action:"district",
+        },
+        success:function(data){
+          console.log("DATA", data.length)
+          var taluka = document.getElementById('taluka')
+          document.getElementById('taluka').innerHTML = ""
+          var option = document.createElement("option");
+           option.value ="";
+            option.textContent = "--select--";
+            taluka.appendChild(option);
+        
+          if(data.length > 0){
+            
+            for(i = 0; i < data.length; i++){
+            var option = document.createElement("option");
+            console.log(data[i].name, "--------------")
+            option.value = data[i].name;
+            option.textContent = data[i].name;
+            taluka.appendChild(option);
+            }
+          }
+        }
+      }) 
+  }
+</script>
+
+<script>
+  function OtherAppend(option){
+    value = option.value
+    console.log("value",value)
+    // Test start
+    let x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+    console.log("x:",x)
+    
+    var other = document.getElementById('other')
+    var taluka_other = document.getElementById('taluka_other')
+
+    if(x === "Other") {   
+      other.style.display = "block";
+      taluka_other.style.display = "block";
+    }
+    else {
+      other.style.display = "none";
+      taluka_other.style.display = "none";
+    }
+    // Test End
+
+    // var other = document.getElementById('other')
+    // var taluka_other = document.getElementById('taluka_other')
+    // if(value == 3) {   
+    //     other.style.display = "block";
+    //     taluka_other.style.display = "block";
+    // }
+    // else {
+    //     other.style.display = "none";
+    //     taluka_other.style.display = "none";
+    // }
+
+  }
+  
+</script>
+
+<script>
+  function TalukaOtherAppend(option){
+    value = option.value
+    console.log("value", value)
+    var taluka_other = document.getElementById('taluka_other')
+    if(value === 'Other'){
+      taluka_other.style.display = "block";
+      document.getElementById('other_taluka').setAttribute('required','')
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+
+    }
+    else{
+      taluka_other.style.display = "none";
+      document.getElementById('other_taluka').removeAttribute('required')
+      document.getElementById('other_taluka_red_dot').innerHTML = ""
+    }
+  }
+</script>
+
+<script>
+  function OtherPassedEducation(option){
+    value = option.value
+    console.log("Value", value)
+    var other_passed_Education = document.getElementById('other_passed_Education')
+    console.log("---", other_passed_Education)
+
+    if(value == 'Other'){
+      document.getElementById('passed_education_other').style.display = "block";
+
+      other_passed_Education.style.display = "block";
+      other_passed_Education.setAttribute('required','');
+      document.getElementById('other_passed_Education_red_dot').innerHTML = "*" 
+    }
+    else{
+      document.getElementById('passed_education_other').style.display = "none";
+
+      other_passed_Education.style.display = "none";
+      other_passed_Education.removeAttribute('required');
+      document.getElementById('other_passed_Education_red_dot').innerHTML = ""
+
+    }
+  }
+</script>
+<script>
+  function OtherCurrentEducation(option){
+    value = option.value
+    console.log("value", value)
+    // value = document.getElementById("current_education").options[document.getElementById("current_education").selectedIndex].text;
+    var other_current_education = document.getElementById('other_current_education')
+    if(value == 'Other'){
+      document.getElementById('current_education_other').style.display = "block";
+
+      other_current_education.style.display = "block";
+      other_current_education.setAttribute('required','');
+      document.getElementById('other_current_education_red_dot').innerHTML = "*"
+
+    }
+    else{
+      document.getElementById('current_education_other').style.display = "none";
+
+      other_current_education.style.display = "none";
+      other_current_education.removeAttribute('required');
+      document.getElementById('other_current_education_red_dot').innerHTML = ""
+    }
+  }
+</script>
+<script>
+    function validateIFSC() {
+      var ifscCode = document.getElementById("ifsc_code").value;
+      var ifsc_validation = document.getElementById("ifsc_validation");
+      var ifsc_valid = document.getElementById("ifsc_valid");
+      var regex = /^[A-Za-z]{4}[0][A-Z0-9]{6}$/;
+
+      if (regex.test(ifscCode)) {
+        ifsc_valid.innerHTML = "IFSC match the validation"
+        ifsc_validation.style.display = "none"
+        ifsc_valid.style.display = "block"
+        } else {
+        ifsc_validation.innerHTML = "Enter your valid IFSC code"
+        ifsc_valid.style.display = "none"
+        ifsc_validation.style.display = "block"
+      }
+    }
+  </script>
+
+<script>
+    function BirthValidation(option) { 
+
+      if(option.value == "True") {
+        document.getElementById('district_birth_other').style.display = "block"
+        document.getElementById('birth_other_district').setAttribute('required' , ''); 
+        document.getElementById('birth_district').innerHTML = " *"
+
+        document.getElementById('taluka_birth_other').style.display = "block"
+        document.getElementById('birth_other_taluka').setAttribute('required' , ''); 
+        document.getElementById('birth_taluka').innerHTML = " *"
+
+        document.getElementById('mulgaon_birth_other').style.display = "block"
+        document.getElementById('birth_other_mulgaon').setAttribute('required' , ''); 
+        document.getElementById('birth_mulgaon').innerHTML = " *"
+      }
+      else { 
+        document.getElementById('district_birth_other').style.display = "none"
+        document.getElementById('birth_other_district').removeAttribute('required'); 
+        document.getElementById('birth_district').innerHTML = ""
+
+        document.getElementById('taluka_birth_other').style.display = "none"
+        document.getElementById('birth_other_taluka').removeAttribute('required'); 
+        document.getElementById('birth_taluka').innerHTML = ""
+
+        document.getElementById('mulgaon_birth_other').style.display = "none"
+        document.getElementById('birth_other_mulgaon').removeAttribute('required'); 
+        document.getElementById('birth_mulgaon').innerHTML = ""
+      }
+    }
+
+
+      function OtherScholarship(option) {
+      if(option.value == "True") {
+        document.getElementById('other_sch_received_amt').setAttribute('required' , ''); 
+        document.getElementById('other_sch_required').innerHTML = " *" 
+      }
+      else { 
+        document.getElementById('other_sch_received_amt').removeAttribute('required');
+        document.getElementById('other_sch_required').innerHTML = "" 
+      }
+    }
+
+    function CandidateValidation(option) {
+      console.log("Inside CandidateValidation ")
+      if(option.value == "True") {
+        var cert = document.getElementById('disablity_certificate_anchor')
+        if (cert === null){
+          document.getElementById('disablity_certificate').setAttribute('required' , ''); 
+          document.getElementById('candidate_required').innerHTML = " *" 
+        }
+        else{
+          document.getElementById('disablity_certificate').removeAttribute('required');
+          document.getElementById('candidate_required').innerHTML = ""
+        }
+        
+      }
+      else { 
+        document.getElementById('disablity_certificate').removeAttribute('required');
+        document.getElementById('candidate_required').innerHTML = "" 
+      }
+    }
+
+    function Sportvalidation(option) {
+      if(option.value == "True") {
+        var cert = document.getElementById('upload_certificate_sports_anchor')
+        if (cert === null){
+          document.getElementById('upload_certificate_sports').setAttribute('required' , ''); 
+          document.getElementById('sport_required').innerHTML = " *" 
+        }
+        else{
+          document.getElementById('upload_certificate_sports').removeAttribute('required');
+          document.getElementById('sport_required').innerHTML = ""
+        }
+        
+      }
+      else { 
+        document.getElementById('upload_certificate_sports').removeAttribute('required');
+        document.getElementById('sport_required').innerHTML = "" 
+      }
+    }
+
+    function Servicevalidation(option) {
+      if(option.value == "True") {
+        var cert = document.getElementById('upload_certificate_isalive_anchor')
+        if (cert === null){
+          document.getElementById('upload_certificate_isalive').setAttribute('required' , ''); 
+          document.getElementById('service_required').innerHTML = " *" 
+        }
+        else{
+          document.getElementById('upload_certificate_isalive').removeAttribute('required');
+          document.getElementById('service_required').innerHTML = ""
+        }
+        
+        
+      }
+      else { 
+        document.getElementById('upload_certificate_isalive').removeAttribute('required');
+        document.getElementById('service_required').innerHTML = "" 
+      }
+    }
+    
+    function DistrictLevelPlayer(option) {
+      if(option.value == "True") {
+        var cert = document.getElementById('upload_certificate_district_level_anchor')
+        if (cert === null){
+          document.getElementById('upload_certificate_district_level').setAttribute('required' , ''); 
+          document.getElementById('districtlevel_required').innerHTML = " *" 
+        }
+        else{
+          document.getElementById('upload_certificate_district_level').removeAttribute('required');
+          document.getElementById('districtlevel_required').innerHTML = "" 
+        }
+        
+      }
+      else { 
+        document.getElementById('upload_certificate_district_level').removeAttribute('required');
+        document.getElementById('districtlevel_required').innerHTML = "" 
+      }
+    }
+
+    function CandidatePoverty(option) {
+      if(option.value == "True") {
+        var cert = document.getElementById('poverty_line_anchor')
+        if (cert === null){
+          document.getElementById('upload_certificate_poverty_line').setAttribute('required' , ''); 
+          document.getElementById('poverty_required').innerHTML = " *" 
+        }
+        else{
+          document.getElementById('upload_certificate_poverty_line').removeAttribute('required');
+          document.getElementById('poverty_required').innerHTML = "" 
+        }
+        
+      }
+      else { 
+        document.getElementById('upload_certificate_poverty_line').removeAttribute('required');
+        document.getElementById('poverty_required').innerHTML = "" 
+      }
+    }
+    
+</script>
+
+
+
+
+<script>
+  function validateFamilyDetails() {
+    var familyDetailsInput = document.getElementById('family_details');
+    var familyDetailsValue = familyDetailsInput.value.trim();
+
+    if (familyDetailsValue === '') {
+      alert('Family details field is required.');
+      familyDetailsInput.focus();
+    }
+  }
+</script>
+
+<!-- Validate File Type and File Size -->
+<script>
+  function validateFileTypeSize(fileInput) {
+      const allowedExtensions = ["pdf"];
+      const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+
+      const selectedFile = fileInput.files[0];
+      
+      if (!selectedFile) {
+          // alert("Please select a file.");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Please select a file!',
+          });
+          fileInput.value = ""; // Clear the input
+          return;
+      }
+
+      const fileNameParts = selectedFile.name.split('.');
+      const fileExtension = fileNameParts[fileNameParts.length - 1].toLowerCase();
+      
+      if (!allowedExtensions.includes(fileExtension)) {
+          // alert("Only PDF files are allowed.");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Only PDF files are allowed!',
+          });
+          fileInput.value = ""; // Clear the input
+          return;
+      }
+
+      if (selectedFile.size > maxFileSize) {
+          // alert("File size exceeds the limit of 5MB.");
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'File size exceeds the limit of 5MB !',
+          });
+          fileInput.value = ""; // Clear the input
+          return;
+      }
+  }
+</script>
+
+<!-- Page Loader On Save Button -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  var loader = document.getElementById("loader-sch");
+  var saveButton = document.getElementById("save");
+
+  saveButton.addEventListener("click", function() {
+    loader.style.display = "flex"; // Show the loader
+  });
+});
+</script>
+<!-- Page Loader On submit Button -->
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+  var loader = document.getElementById("loader-sch");
+  var submitButton = document.getElementById("submit");
+
+  submitButton.addEventListener("click", function() {
+    loader.style.display = "flex"; // Show the loader
+  });
+
+});
+</script>
+{% endblock content %}

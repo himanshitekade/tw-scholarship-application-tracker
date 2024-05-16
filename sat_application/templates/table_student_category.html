@@ -1,0 +1,182 @@
+<!-- COPY THE CONTENTS OF THIS FILE TO YOUR TABLE VIEW -->
+<!-- PS: CHANGE THE CLASSES AS REQUIRED. DO NOT CHANGE THE ACTION, NAME AND VALUE ATTRIBUTES -->
+
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<!-- content @s -->
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Table View</h3>
+                            <div class="nk-block-des text-soft">
+                                <!-- <p>You have total 2,595 users.</p> -->
+                                {% if messages %}
+                                    {% for message in messages %}   
+                                        <div class="example-alert my-1">
+                                            <div class="alert alert-{{ message.tags}} alert-dismissible alert-icon"><strong>{{message}}</strong><button class="close" data-bs-dismiss="alert"></button>
+                                            </div>
+                                        </div>
+                                    {% endfor %}   
+                                {% endif %}
+                            </div>
+                            <div class="nk-block-head-content" style="float: right;">
+                                <div class="toggle-wrap nk-block-tools-toggle">
+                                    <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em class="icon ni ni-menu-alt-r"></em></a>
+                                    <div class="toggle-expand-content" data-content="pageMenu">
+                                        <ul class="nk-block-tools g-3">
+                                            
+                                            <li class="nk-block-tools-opt">
+                                                <div class="drodown">
+                                                    <form action="{% url redirect %}" method="get">
+                                                        <button class="btn btn-primary" type="submit" name="action" value="create"><em class="icon ni ni-plus"></em>Create</button>
+                                                    </form>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div><!-- .toggle-wrap -->
+                            </div><!-- .nk-block-head-content -->
+                        </div>
+                    </div>
+                    
+                    <div class="card card-preview my-4">
+                        <div class="card-inner">
+                                <table class="datatable-init table" id="myTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Sr.no</th>
+                                            {% for i in JsonForm.HTML_table.headers %}
+                                            <th>{{ i }}</th>
+                                            {% endfor %}
+                                            <th>Action</th>
+                                           
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for i in data %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>
+                                            <td>{{ i.category_name }}</td>
+                                            <td>{{ i.student_category_session.year}} </td>
+                                            <td>{{ i.application_type }}</td>
+                                            <td>{{ i.no_of_candidates }}</td>
+                                            <td>{{ i.amt_for_candidates }}</td>
+                                            <td>{{ i.total_amt }}</td>
+                                            <td>
+                                                <div class="drodown">
+                                                    <a href="#" class="btn btn-sm btn-icon btn-trigger dropdown-toggle" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a> 
+                                                    <div class="dropdown-menu dropdown-menu-end">
+                                                        <ul class="link-list-opt no-bdr">
+                                                            <li>
+                                                                <form action="{% url redirect %}" method="get">
+                                                                    <input type="text" hidden name="id" value="{{i.id}}">
+                                                                    <span>
+                                                                        <button class="btn btn-icon" type="submit" name="action" value="edit">
+                                                                        <em class="icon ni ni-edit"></em>Edit
+                                                                        </button
+                                                                    ></span>
+                                                                </form>
+                                                            </li>
+                                                            <li>
+                                                            <!-- <form action="{% url redirect %}" method="get">
+                                                                    <input type="text" hidden name="id" value="{{i.id}}">
+                                                                <span>
+                                                                    <button class="btn btn-icon" type="submit" name="action" value="delete" onclick="confirmDelete('{{i.id}}')" >
+                                                                        <em class="icon ni ni-trash"></em>Delete
+                                                                    </button>   
+                                                                </span>
+                                                            </form> -->
+                                                            <button onclick="confirmDelete('{{i.id}}')" name="action" value="delete"
+                                                                class="btn btn-icon" id= 'delete-obj' data-url="{% url redirect %}"> 
+                                                                <em class="icon ni ni-trash"></em>Delete
+                                                            </button>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        
+                                    </tbody> 
+                                </table>
+                        </div>
+                    </div><!-- .card-preview -->
+                    
+                </div> <!-- nk-block -->
+            </div><!-- .components-preview -->
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+
+
+
+<script>
+    function confirmDelete(id){
+    console.log(id)
+    Swal.fire({
+    title: 'Are you sure?',
+    text: "You won't be able to revert this!",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+        console.log(result)
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+            deleteObject(id);
+        } else if (result.isDenied){
+            
+        }
+    });
+    }
+
+function deleteObject(id){
+    var id = id
+    var endpoint =  $("#delete-obj").attr("data-url");
+    $.ajax({
+        method:'GET',
+        url: endpoint,
+        data:{
+            id:id,
+            action:"delete",
+        },      
+        success:function(data){
+            if(data.status === 'Deleted'){
+                
+                Swal.fire('Deleted!', 'Requested data has been deleted.', 'success')
+                .then((result) => {
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        location.reload()
+                    } else {
+                        location.reload()
+                    }
+                });
+
+            }else
+            {
+                Swal.fire('Not Deleted!', data.message, 'error');
+                }
+            
+            }
+
+    })
+}
+
+</script>
+
+
+
+
+{% endblock content %}
+<!-- END OF TABLE -->

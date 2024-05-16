@@ -1,0 +1,13 @@
+[
+{
+  "model": "sat_application.schsession",
+  "pk": 1,
+  "fields": {
+    "year": "2023",
+    "start_session": "Jan",
+    "end_session": "Dec",
+    "name_session": "session1",
+    "comments": null
+  }
+}
+]

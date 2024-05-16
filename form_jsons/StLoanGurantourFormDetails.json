@@ -1,0 +1,185 @@
+{
+	"css": "base1.css",
+	"legend": "Crm_Forms",
+	"HTML_fields": [
+		{
+			"tag": "select",
+			"type": "NA",
+			"class": "form-control",
+			"label": "Have you received this loan before ?",
+			"id": "is_loan_receviced",
+			"name": "is_loan_receviced",
+			"options": {
+				"Yes": "Yes",
+				"No": "No"
+			},
+			"required": "true"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "How much loan amount you want?",
+			"id": "loan_amount",
+			"name": "loan_amount",
+			"required": "true",
+			"placeholder": "Enter amount"
+		},
+		{
+			"tag": "input",
+			"type": "file",
+			"class": "form-control",
+			"label": "Student Self Declaration form",
+			"id": "self_declaration_form",
+			"name": "self_declaration_form",
+			"required": "true",
+			"accept": ".pdf"
+		},
+		{
+			"tag": "input",
+			"type": "file",
+			"class": "form-control",
+			"label": "Gurantour Certificate",
+			"id": "gurantour_certificate",
+			"name": "gurantour_certificate",
+			"required": "true",
+			"accept": ".pdf"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Gurantour Name",
+			"id": "gurantour_name",
+			"name": "gurantour_name",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter gurantour name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Gurantour Address",
+			"id": "gurantour_address",
+			"name": "gurantour_address",
+			"maxlength": "500",
+			"required": "true",
+			"placeholder": "Enter address"
+		},
+		{
+			"tag": "input",
+			"type": "tel",
+			"class": "form-control",
+			"label": "Gurantour Mobile Number",
+			"id": "gurantour_mobile",
+			"name": "gurantour_mobile",
+			"maxlength": "13",
+			"required": "true",
+			"placeholder": "Enter mobile number"
+		}
+	],
+	"HTML_table": {
+		"headers": [
+			"Gurantour Certificate",
+			"Gurantour Name",
+			"Gurantour Mobile Number",
+			"Have you received this loan before ?",
+			"How much loan amount you want?",
+			"Student Self Declaration form",
+			"Gurantour Address"
+		],
+		"values": [
+			{
+				"name": "is_loan_receviced",
+				"type": "text"
+			},
+			{
+				"name": "loan_amount",
+				"type": "text"
+			},
+			{
+				"name": "self_declaration_form",
+				"type": "file"
+			},
+			{
+				"name": "gurantour_certificate",
+				"type": "text"
+			},
+			{
+				"name": "gurantour_name",
+				"type": "text"
+			},
+			{
+				"name": "gurantour_address",
+				"type": "text"
+			},
+			{
+				"name": "gurantour_mobile",
+				"type": "text"
+			}
+		],
+		"searchable_fields": [
+			"gurantour_certificate",
+			"gurantour_name",
+			"gurantour_mobile",
+			"gurantour_address",
+			"is_loan_receviced",
+			"loan_amount",
+			"self_declaration_form"
+		]
+	},
+	"Model_fields": {
+		"tableName": "StLoanGurantourFormDetails",
+		"tableFields": [
+			{
+				"type": "FileField",
+				"name": "gurantour_certificate",
+				"isBlank": "False",
+				"isNull": "False",
+				"filePath": "gurantour_certificate"
+			},
+			{
+				"type": "CharField",
+				"name": "gurantour_name",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "gurantour_address",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "500"
+			},
+			{
+				"type": "PhoneNumberField",
+				"name": "gurantour_mobile",
+				"isBlank": "False",
+				"isNull": "False"
+			},
+			{
+				"type": "BooleanField",
+				"name": "is_loan_receviced",
+				"isBlank": "False",
+				"isNull": "False",
+				"default": ""
+			},
+			{
+				"type": "FloatField",
+				"name": "loan_amount",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "FileField",
+				"name": "self_declaration_form",
+				"isBlank": "False",
+				"isNull": "False",
+				"filePath": "declaration_form"
+			}
+		]
+	}
+}

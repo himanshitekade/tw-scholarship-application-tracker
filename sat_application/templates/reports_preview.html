@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<div class="nk-content ">
+    <div class="container-fluid">
+        <div class="nk-content-inner">
+            <div class="nk-content-body">
+                <div class="nk-block-head nk-block-head-sm">
+                    {% if messages %}
+                            {% for message in messages %}   
+                                <div class="example-alert">
+                                    <div class="alert alert-{{ message.tags}} alert-dismissible alert-icon"><strong>{{message}}</strong><button class="close" data-bs-dismiss="alert"></button>
+                                    </div>
+                                </div>
+                            {% endfor %}   
+                        {% endif %}
+                    <div class="nk-block-between">
+                        <div class="nk-block-head-content">
+                            <h3 class="nk-block-title page-title">Preview </h3>
+                            <div class="nk-block-des text-soft">
+                            <p>Preview reports.</p>
+                            </div>
+                        </div><!-- .nk-block-head-content -->
+                        <div class="nk-block-head-content">
+                            <div class="toggle-wrap nk-block-tools-toggle">    
+                                <!-- <button onclick="history.back()" class="btn btn-primary"><em class="icon ni ni-arrow-left"></em>Back</button>   --> 
+                                <!-- <button onclick="window.close()" class="btn btn-primary"><em class="icon ni ni-arrow-left"></em>Back</button> -->
+
+                            </div><!-- .toggle-wrap -->
+                        </div><!-- .nk-block-head-content -->
+                        
+                    </div><!-- .nk-block-between -->
+                </div><!-- .nk-block-head -->
+                <div class="nk-block">
+                    
+
+                    {% if is_table %}
+                        <p>{{message}}</p>
+                        
+                        <div class="card card-bordered card-stretch" style="overflow-x:auto;">
+                                <table class="table table-bordered mt-5">
+                                    <thead>
+                                        {% for header in table_headers %}
+                                            <th>{{header}}</th>
+                                        {% endfor %}
+                                    </thead>
+                                    <tbody>
+                                        {% for data in table_data %}                  
+                                        <tr> 
+                                            {% for field in data %}
+                                                {% if 'http' in field %}
+                                                    <td><a href="{{field}}" target="_blank">View event</a></td>
+                                                {% else %}
+                                                    <td>{{ field }}</td>   
+                                                {% endif %}
+                                            {% endfor %}           
+                                        </tr> 
+                                        {% endfor %}                
+                                    </tbody>
+                                </table>
+                        </div><!-- .card -->
+                    {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="card card-bordered card-stretch">
+                                <div class="card-inner-group">
+                                    <div class="card-inner position-relative card-tools-toggle">
+                                        <div class="row gy-4">
+                                            <div class="col-4" hidden>
+                                                <div class="form-group">
+                                                    <label for="duration" class="form-label"> Select duration of report </label>
+                                                    <span style= 'color:red;'>*</span>
+                                                    <div class="form-control-wrap">
+                                                        <select  class="form-select" id="duration" onchange="showCustomStartEnd(this.value)" name="duration"  required >
+                                                            
+                                                                <option value="all">All</option>
+                                                                <option value="week">Last week</option>
+                                                                <option value="month">Last month</option>
+                                                                <option value="quarter">Last 3 months</option>
+                                                                <option value="half_yearly"> Six months</option>
+                                                                <option value="yearly">Last year</option>
+                                                                <option value="custom">Custom</option>
+                                                        </select>
+                                                    </div>	
+                                                </div>
+                                                <div class="row" id="custom_start_end" style="display: none;" >
+                                                    <div class="col-6" >
+                                                        <div class="form-group">
+                                                            <label for="start_date" class="form-label"> Start date </label>
+                                                            <span style= 'color:red;'>*</span>
+                                                            <div class="form-control-wrap">
+                                                                <input type="date" id="start_date" name="start_date" class="form-control">
+                                                            </div>	
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6" >
+                                                        <div class="form-group">
+                                                            <label for="end_date" class="form-label"> End date </label>
+                                                            <span style= 'color:red;'>*</span>
+                                                            <div class="form-control-wrap">
+                                                                <input type="date" id="end_date" name="end_date" class="form-control">
+                                                            </div>	
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div><!--col-->
+
+                                            <div class="col-sm-6">
+                                              <div class="form-control-wrap">
+                                                <label class="form-label">Session</label>
+                                                <span style="color:red;">*</span>
+                                                <select class="form-select field" id="st_sch_form_session" name="st_sch_form_session" disabled>
+                                                <option value="1" selected>{{current_year_id.year}}</option> 
+                                                </select>
+                                              </div>
+                                            </div>
+                                            <!-- <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Select Application Type</label>
+                                                    <span style="color:red;">*</span>
+                                                    <div class="form-control-wrap">
+                                                        <select class="form-select field" id="application_type" name="action" required onchange="CategoryValue(this)">
+                                                            <option value="" selected disabled>--select--</option>
+                                                            {% for form_type in form_types %}
+                                                            <option value="{{ form_type.name }}">{{ form_type.description }}</option>
+                                                            {% endfor %}
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+
+                                            <!-- <div class="col-sm-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Select Category</label>
+                                                    <span style="color:red;" id="category_red_dot">*</span>
+                                                    <div class="form-control-wrap">
+                                                        <select class="form-select field" id="category" name="category" required>
+                                                        
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="col-sm-6">
+                                              <div class="form-group">
+                                                <label class="form-label">Current District</label>
+                                                <span style="color:red;">*</span>
+                                                <div class="form-control-wrap"> 
+                                                  <select class="form-select field" id="district" name="district" required >
+                                                   
+                                                    <option value="" selected disabled>--select--</option> 
+                                                    {% for dist in districts %}
+                                                      <option {% if District_id == dist.id %} selected {% endif %} value="{{dist.id}}">{{dist.name}}</option>
+                                                    {% endfor %}
+                                                  </select>
+                                                </div>
+                                              </div>
+                                            </div> -->
+
+                                            <div class="col-6">
+                                                <div class="row" >
+                                                    <div class="form-group col-6">
+                                                        <label for="duration" class="form-label"> Select export format </label>
+                                                        <select  class="form-select" id="action" name="export">   
+                                                            <option value="" selected disabled>--select--</option>            
+                                                            <option value="csv">CSV</option>
+                                                            <option value="xlsx">XLSX</option>
+                                                        </select>                                                        
+                                                    </div>
+                                                    <div class="form-group col-6" style="position: relative;">
+                                                        <div class="form-control-wrap"
+                                                            style="position: absolute;
+                                                            top: 10px;
+                                                            right: 10px;"
+                                                        >
+                                                            <button type="submit" name="action" value="export" class="btn btn-danger btn-sm" >Export</button>
+    
+                                                            <button class="btn btn-sm btn-success" name="action" value="Generate" >
+                                                                Generate   
+                                                            </button>
+                                                        </div>
+                                                    </div>            
+                                                </div>
+    
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div>
+                                <!-- <div class="card-inner-group">
+                                    <div class="card-inner position-relative card-tools-toggle">
+                                        <div class="row gy-4">
+
+                                            <div class="col-6">
+                                                <div class="form-control-wrap">
+                                                    <label for="duration" class="form-label"> Select filters </label>
+                                                    <select class="form-select js-select2" id="primary_filters" name="primary_filters" multiple 
+                                                    data-placeholder="Select filters" onchange="manageFilters(this)"> 
+                                                    {% for filter in primary_filters %}
+                                                    <option value="{{filter.db_name}}">{{filter.display_name}}</option>
+                                                    {% endfor %} 
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>    
+                                    </div>
+                                </div> -->
+                                <div class="card-inner-group">
+                                    <div class="card-inner position-relative card-tools-toggle">
+                                        <div class="row gy-4">
+                                            {% for key, values in secondary_filters.items %}
+
+                                                <div class="col-6" id="{{key}}" style="display: none;" >
+                                                    <div class="form-control-wrap">
+                                                        <label for="name" class="form-label"> {{values.0}} </label>
+                                                        
+                                                        <select class="form-select js-select2" id="secondary_filters_{{key}}" name="secondary_filters_{{key}}"  multiple 
+                                                        data-placeholder="Select filters"> 
+                                                        {% for value in values.1 %}
+                                                                {% if key == 'category_name' %}
+                                                                    <option value="{{value.id}}_{{value.event_name}}">
+                                                                        {{value.category_name}} - Start Time: {{value.start_date}}
+                                                                    </option>
+                                                                {% else %}
+                                                                    <option value="{{value.id}}_{{value.name}}">
+                                                                        {{value.name}}
+                                                                    </option>
+                                                                {% endif %}
+                                                            </option>
+                                                        {% endfor %} 
+                                                    </select>
+                                                    </div>
+                                                </div><!--col-->
+                                            {% endfor %}
+                                        </div>    
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    {% endif %}
+                </div><!-- .nk-block -->
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function CategoryValue(option){
+     // Selected Application type
+        
+      var value = document.getElementById("application_type").options[document.getElementById("application_type").selectedIndex].text;  
+      console.log(value)
+    //   Value of selected application type
+      var id = value
+      console.log("ID", id)
+      $.ajax({
+          method:'GET',
+          url: "{% url 'report-data-table' 1 %}",
+          data:{
+              parent_id:id,
+              action:"get_category",
+          },
+          success:function(data){
+            // Testing Started For one category
+            var category = document.getElementById('category')
+            document.getElementById('category').innerHTML = ""
+            if(data.length === 1){
+                for(i = 0; i < data.length; i++){
+                    var option = document.createElement("option");
+                    option.value = data[i].id;
+                    option.textContent = data[i].category_name;
+                    category.appendChild(option);
+                    category.disabled = true;
+                }
+            }else{
+                var option = document.createElement("option");
+                option.value ="";
+                option.textContent = "--select--";
+                category.appendChild(option);
+
+                for(i = 0; i < data.length; i++){
+                    var option = document.createElement("option");
+                    option.value = data[i].id;
+                    option.textContent = data[i].category_name;
+                    category.appendChild(option);
+                    category.disabled = false;
+              }
+            }
+            // End testing
+          }
+        })   
+    }
+</script>
+
+<script>
+    
+    function showCustomStartEnd(value){
+        console.log(value)
+        var custom_start_end = document.getElementById('custom_start_end');
+        var start_date = document.getElementById('start_date');
+        var end_date = document.getElementById('end_date');
+        if(value=='custom'){
+            custom_start_end.style.display = "block";
+
+            start_date.setAttribute('required', '');
+            end_date.setAttribute('required', '');
+
+        }else{
+            custom_start_end.style.display = "none";
+             
+            start_date.removeAttribute('required');
+            end_date.removeAttribute('required');
+        }
+    }
+
+
+
+    function getSelectedOptions(sel) {
+        var opts = [],
+            opt;
+        var len = sel.options.length;
+        for (var i = 0; i < len; i++) {
+            opt = sel.options[i];
+
+            if (opt.selected) {
+            opts.push(opt.value);
+            }
+        }
+
+        return opts;
+        }
+
+    function manageFilters(obj){
+        var selected_options = getSelectedOptions(obj);
+        var primary_filters = ["scholarship_form", "loan_form", "vachanalay_form",
+            "school_form","anganwadi_form","institution_form", "districts"];
+
+        console.log("primary_filters", primary_filters)
+        
+        let difference = primary_filters.filter(x => !selected_options.includes(x));
+
+
+        for(var i=0; i<selected_options.length;i++){
+            var ele = document.getElementById(selected_options[i]);
+            ele.style.display = "block";
+        }
+        for(var i=0; i<difference.length;i++){
+            var ele_hide = document.getElementById(difference[i]);
+            console.log(ele_hide);
+            // FOR unselecting the options
+            if(ele_hide){
+                // for (var i = 0; i < ele_hide.options.length; i++) {
+                //     ele_hide.options[i].selected = false;
+                // }
+            
+                ele_hide.style.display = "none";
+            }
+            
+        }
+
+    }
+</script>
+{% endblock content %}

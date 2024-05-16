@@ -1,0 +1,213 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx" class="js">
+<head>
+    <base href="../../../">
+    <meta charset="utf-8">
+    <meta name="author" content="Softnio">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <!-- Fav Icon  -->
+    <link rel="shortcut icon" href="{% static 'assets/images/sat-logo.png' %}">
+    <!-- Page Title  -->
+    <title>Registration | SSN </title>
+    <!-- StyleSheets  -->
+    <link rel="stylesheet" href="{% static 'assets/css/dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+</head>
+
+<body class="nk-body ui-rounder npc-general pg-auth">
+    <div class="nk-app-root">
+        <!-- main @s -->
+        <div class="nk-main ">
+            <!-- wrap @s -->
+            <div class="nk-wrap nk-wrap-nosidebar">
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="nk-split nk-split-page nk-split-lg">
+                        <div class="nk-split-content nk-block-area nk-block-area-column nk-auth-container bg-white w-lg-45">
+                            <div class="absolute-top-right d-lg-none p-3 p-sm-5">
+                                <a href="#" class="toggle btn btn-white btn-icon btn-light" data-target="athPromo"><em class="icon ni ni-info"></em></a>
+                            </div>
+                            <div class="nk-block nk-block-middle nk-auth-body">
+                                <div class="brand-logo pb-5">
+                                    <a class="logo-link">
+                                        <img class="logo-light logo-img logo-img-lg" src="{% static 'assets/images/sat-logo.png' %}" srcset="./images/logo2x.png 2x" alt="logo">
+                                        <img class="logo-dark logo-img logo-img-lg" src="{% static 'assets/images/sat-logo.png' %}" srcset="./images/logo-dark2x.png 2x" alt="logo-dark">
+                                    </a>
+                                </div>
+                                <div class="nk-block-head">
+                                    <div class="nk-block-head-content">
+                                        <h5 class="nk-block-title">Register</h5>
+                                        <div class="nk-block-des">
+                                            <p>Create New Account</p>
+                                            {% if messages %}
+                                                {% for message in messages %}   
+                                                    <div class="example-alert">
+                                                        <div class="alert alert-{{ message.tags}} alert-dismissible alert-icon"><strong>{{ message }}</strong><button class="close" data-bs-dismiss="alert"></button>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}   
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block-head -->
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">First Name</label>
+                                        <span class="text-danger">*</span>
+                                        <div class="form-control-wrap">
+                                            <input type="text" name= "first_name" class="form-control form-control-lg" id="first_name" placeholder="Enter your first name" required value="{{filled_data.first_name.0}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="name">Last Name</label>
+                                        <span class="text-danger">*</span>
+                                        <div class="form-control-wrap">
+                                            <input type="text" class="form-control form-control-lg" 
+                                            name= "last_name" id="last_name" placeholder="Enter your last name" required value="{{filled_data.last_name.0}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for='username' class='form-label'>UserName<span class="text-danger">*</span></label>
+                                        <div class="form-control-wrap">
+                                            <input type='text' class='form-control form-control-md' id='username' name='username'
+                                            placeholder='Enter your username' value="{{ filled_data.username.0 }}" maxlength='70' required='true'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="email">Email</label>
+                                        <span class="text-danger">*</span>
+                                        <div class="form-control-wrap">
+                                            <input type="email" class="form-control form-control-lg" id="email" name="email" placeholder="Enter your email address" required value="{{filled_data.email.0}}">
+                                            <span id="email-error" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for='password1' class='form-label'>Password
+                                        <span class="text-danger">*</span></label>
+                                        <div class="form-control-wrap">
+                                            <a tabindex="-1" href="#"
+                                                class="form-icon form-icon-right passcode-switch lg"
+                                                data-target="password1">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input type='password' class='form-control form-control-md' id='password1' name='password1'
+                                            placeholder='Enter password' maxlength='30' value="{{ filled_data.password1.0 }}" required='true'>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for='password2' class='form-label'>Confirm Password<span class="text-danger">*</span></label>
+                                        <div class="form-control-wrap">
+                                            <a tabindex="-1" href="#"
+                                                class="form-icon form-icon-right passcode-switch lg"
+                                                data-target="password2">
+                                                <em class="passcode-icon icon-show icon ni ni-eye"></em>
+                                                <em class="passcode-icon icon-hide icon ni ni-eye-off"></em>
+                                            </a>
+                                            <input type='password' class='form-control form-control-md' id='password2' name='password2'
+                                            placeholder='Re-enter password' maxlength='30' value="{{ filled_data.password2.0 }}" required='true'>   
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label" for="mobile">Mobile Number</label>
+                                        <span class="text-danger">*</span>
+                                        <div class="form-control-wrap">
+                                            <input type="tel" class="form-control form-control-lg" name="mobile" id="mobile" placeholder="Enter your mobile number"  maxlength='13' pattern='(\+91[7-9]{1}[0-9]{9})' {% if filled_data.mobile.0 %} value="{{filled_data.mobile.0}}" {% endif %} value="+91" required>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Role</label>
+                                        <span style="color:red;">*</span>
+                                        <div class="form-control-wrap">
+                                          <select class="form-select" id="role" name="role" required>
+                                            <option value="" selected>--select--</option>
+                                            {% for role in roles %} 
+                                            <option {% if filled_data_roles %} {% for i in filled_data_roles %}  {% if i.id == role.id %} selected {% endif %} {% endfor %} {% endif %} value="{{role.id}}">{{role.name}}</option>
+                                            {% endfor %}
+                                          </select>
+                                        </div>
+                                      </div>
+                                     
+                                    <div class="form-group">
+                                        <button class="btn btn-lg btn-primary btn-block" id="register_button">Register</button>
+                                    </div>
+                                </form><!-- form -->
+                                <div class="form-note-s2 pt-4"> Already have an account ? <a href="{% url 'user-login' %}"><strong>Sign in instead</strong></a>
+                                </div>
+                            </div><!-- .nk-block -->
+                        </div><!-- nk-split-content -->
+                        <div class="nk-split-content nk-split-stretch bg-lighter d-flex toggle-break-lg toggle-slide toggle-slide-right" data-toggle-body="true" data-content="athPromo" data-toggle-screen="lg" data-toggle-overlay="true">
+                            <div class="slider-wrap w-100 w-max-550px p-3 p-sm-5 m-auto">
+                                <div class="slider-init" data-slick='{"dots":true, "arrows":false}'>
+                                    <div class="slider-item">
+                                        <div class="nk-feature nk-feature-center">
+                                            <div class="nk-feature-img" style="display: flex;justify-content: center;">
+                                                <img class="round" src="{% static 'assets/images/gallary-01.jpg' %}" srcset="./images/slides/promo-a2x.png 2x" alt="">
+                                            </div>
+                                            <div class="nk-feature-content py-4 p-sm-5">
+                                                <h4>Subhadrabai Shikshan Nidhi.</h4>
+                                                <!-- <p>You can start to create your products easily with its user-friendly design & most completed responsive layout.</p> -->
+                                            </div>
+                                        </div>
+                                    </div><!-- .slider-item -->
+                                    <div class="slider-item">
+                                        <div class="nk-feature nk-feature-center">
+                                            <div class="nk-feature-img" style="display: flex;justify-content: center;">
+                                                <img class="round" src="{% static 'assets/images/gallary-02.jpg' %}" srcset="./images/slides/promo-a2x.png 2x" alt="">
+                                            </div>
+                                            <div class="nk-feature-content py-4 p-sm-5">
+                                                <h4>Subhadrabai Shikshan Nidhi.</h4>
+                                                <!-- <p>You can start to create your products easily with its user-friendly design & most completed responsive layout.</p> -->
+                                            </div>
+                                        </div>
+                                    </div><!-- .slider-item -->
+                                </div><!-- .slider-init -->
+                                <div class="slider-dots"></div>
+                                <div class="slider-arrows"></div>
+                            </div><!-- .slider-wrap -->
+                        </div><!-- nk-split-content -->
+                    </div><!-- nk-split -->
+                </div>
+                <!-- wrap @e -->
+            </div>
+            <!-- content @e -->
+        </div>
+        <!-- main @e -->
+    </div>
+    <!-- app-root @e -->
+    <!-- JavaScript -->
+    <script src="{% static 'assets/js/bundle.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+    <!-- select region modal -->
+
+<!-- Email validations -->
+<script>
+  // Get the email input element
+  var emailInput = document.getElementById('email');
+  
+  // Get the error message element
+  var emailError = document.getElementById('email-error');
+  
+  // Add an event listener to the form's submit event
+  // This will be triggered when the form is submitted
+  document.querySelector('form').addEventListener('submit', function(event) {
+    // Check if the email is valid
+    if (!validateEmail(emailInput.value)) {
+      // Display an error message
+      emailError.textContent = 'Please enter a valid email address';
+      // Prevent the form from being submitted
+      event.preventDefault();
+    }
+  });
+  
+  // Email validation function
+  function validateEmail(email) {
+    // Use a regular expression to validate the email format
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+</script>
+</html>

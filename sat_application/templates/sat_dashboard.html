@@ -1,0 +1,728 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+
+{% block content %}
+<!-- Page Loader start -->
+<div id="loader-wrapper" style="display: none;align-items: center;justify-content: center;position: fixed;
+    top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5); z-index: 9999; ">
+    <div id="loader" class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<!-- Page Loader End -->
+
+<!-- content @s -->
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block-head nk-block-head-sm">
+        <div class="nk-block-between">
+          <div class="nk-block-head-content">
+            <h3 class="nk-block-title page-title">Scholarship /Organisation Application Tracker</h3>
+            <div class="nk-block-des text-soft">
+              <p>Welcome to SAT Management Dashboard.</p>
+            </div>
+          </div><!-- .nk-block-head-content -->
+          <div class="nk-block-head-content">
+            <div class="toggle-wrap nk-block-tools-toggle">
+              <a href="#" class="btn btn-icon btn-trigger toggle-expand me-n1" data-target="pageMenu"><em
+                  class="icon ni ni-more-v"></em></a>
+              <div class="toggle-expand-content" data-content="pageMenu">
+                <!-- <ul class="nk-block-tools g-3">
+                  <li class="nk-block-tools-opt"><a href="#" class="btn btn-primary"><em
+                  class="icon ni ni-reports"></em><span>Reports</span></a></li>
+                </ul> -->
+              </div>
+            </div>
+          </div><!-- .nk-block-head-content -->
+        </div><!-- .nk-block-between -->
+      </div><!-- .nk-block-head -->
+      <div class="nk-block">
+        <div class="row g-gs">
+          <div class="row my-1">
+            <div class="col-lg-3 col-sm-6">
+              <div class="card h-100 bg-primary">
+                <div class="nk-cmwg nk-cmwg1">
+                  <div class="card-inner pt-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-item">
+                        <div class="text-white d-flex flex-wrap">
+                          <span class="fs-2 me-1">{{ register_user }}</span>
+                        </div>
+                        <h6 class="text-white">Total</h6>
+                      </div>
+                    </div>
+                  </div><!-- .card-inner -->
+                </div><!-- .nk-cmwg -->
+              </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-3 col-sm-6">
+              <div class="card h-100 bg-info">
+                <div class="nk-cmwg nk-cmwg1">
+                  <div class="card-inner pt-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-item">
+                        <div class="text-white d-flex flex-wrap">
+                          <span class="fs-2 me-1">{{ Draft }}</span>
+                        </div>
+                        <h6 class="text-white">Submitted</h6>
+                      </div>
+                    </div>
+                  </div><!-- .card-inner -->
+                </div><!-- .nk-cmwg -->
+              </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-3 col-sm-6">
+              <div class="card h-100 bg-success">
+                <div class="nk-cmwg nk-cmwg1">
+                  <div class="card-inner pt-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-item">
+                        <div class="text-white d-flex flex-wrap">
+                          <span class="fs-2 me-1">{{ Selected }}</span>
+                        </div>
+                        <h6 class="text-white">Selected</h6>
+                      </div>
+                    </div>
+                  </div><!-- .card-inner -->
+                </div><!-- .nk-cmwg -->
+              </div><!-- .card -->
+            </div><!-- .col -->
+            <div class="col-lg-3 col-sm-6">
+              <div class="card h-100 bg-danger">
+                <div class="nk-cmwg nk-cmwg1">
+                  <div class="card-inner pt-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-item">
+                        <div class="text-white d-flex flex-wrap">
+                          <span class="fs-2 me-1">{{ Rejected }}</span>
+                        </div>
+                        <h6 class="text-white">Rejected</h6>
+                      </div>
+                    </div>
+                  </div><!-- .card-inner -->
+                </div><!-- .nk-cmwg -->
+              </div><!-- .card -->
+            </div><!-- .col -->
+          </div>
+          {% if textfield1_status_count.items|length >= 1 %}
+            <div class="row my-1">
+              <h6 class="m-1">Shortlisted List</h6>
+              {% for key,values in textfield1_status_count.items %}
+              <div class="col-lg-3 col-sm-6">
+                <div class="card h-100">
+                  <div class="nk-cmwg nk-cmwg1">
+                    <div class="card-inner pt-3">
+                      <div class="d-flex justify-content-between">
+                        <div class="flex-item">
+                          <div class="text-dark d-flex flex-wrap">
+                            <span class="fs-2 me-1">{{ values }}</span>
+                          </div>
+                          <h6 class="text-dark">{{ key }}</h6>
+                        </div>
+                      </div>
+                    </div><!-- .card-inner -->
+                  </div><!-- .nk-cmwg -->
+                </div><!-- .card -->
+              </div><!-- .col -->
+              {% endfor %}
+            </div>
+          {% endif %}
+          
+          {% if textfield2_status_count.items|length >= 1 %}
+            <div class="row my-1">
+              <h6 class="m-1">Selected List</h6>
+              {% for key,values in textfield2_status_count.items %}
+              <div class="col-lg-3 col-sm-6">
+                <div class="card h-100">
+                  <div class="nk-cmwg nk-cmwg1">
+                    <div class="card-inner pt-3">
+                      <div class="d-flex justify-content-between">
+                        <div class="flex-item">
+                          <div class="text-dark d-flex flex-wrap">
+                            <span class="fs-2 me-1">{{ values }}</span>
+                          </div>
+                          <h6 class="text-dark">{{ key }}</h6>
+                        </div>
+                      </div>
+                    </div><!-- .card-inner -->
+                  </div><!-- .nk-cmwg -->
+                </div><!-- .card -->
+              </div><!-- .col -->
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if textfield3_status_count.items|length >= 1 %}
+          <div class="row my-1">
+            <h6 class="m-1">Scholarship List</h6>
+            {% for key,values in textfield3_status_count.items %}
+            <div class="col-lg-3 col-sm-6">
+              <div class="card h-100">
+                <div class="nk-cmwg nk-cmwg1">
+                  <div class="card-inner pt-3">
+                    <div class="d-flex justify-content-between">
+                      <div class="flex-item">
+                        <div class="text-dark d-flex flex-wrap">
+                          <span class="fs-2 me-1">{{ values }}</span>
+                        </div>
+                        <h6 class="text-dark">{{ key }}</h6>
+                      </div>
+                    </div>
+                  </div><!-- .card-inner -->
+                </div><!-- .nk-cmwg -->
+              </div><!-- .card -->
+            </div><!-- .col -->
+            {% endfor %}
+          </div>
+          {% endif %}
+          
+
+
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card card-full">
+              <div class="card-inner">
+                <div class="card-title-group">
+                  <div class="card-title">
+                    <h6 class="title">Category Wise Phase 1</h6>
+                  </div>
+                  <div class="card-tools me-n1 mt-n1">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                            <ul class="link-list-opt no-bdr">
+                              {% for forms in form_types %}
+                                {% if forms.name == "StSchFormDetails" %}
+                                <li>
+                                  <a class="btn" name="action" id="form_status_button1" onclick="GetShortlistedData('{{ forms.description }}','{{ forms.name }}')" value="{{ forms.name }}">{{ forms.description }}</a>
+                      
+                                </li>
+                                {% else %}
+                                <li>
+                                  <a class="btn" name="action" id="form_status_button" onclick="GetShortlistedData('{{ forms.description }}','{{ forms.name }}')" value="{{ forms.name }}">
+                                    {{ forms.description }}
+                                  </a>
+                                </li>
+                                {% endif%}
+                              {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="card-inner pt-0">
+                <!-- Page Loader start -->
+                <div id="loader-wrapper1" style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+                background-color: rgba(255, 255, 255, 0.7);align-items: center;justify-content: center;z-index: 9999;">
+                  <div id="loader" class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+                <!-- Page Loader End -->
+              
+                <div class="card-title">
+                  <div class="title" id="form_title"></div>
+                </div>
+                <ul class="gy-4" id="records1">
+                  
+                </ul>
+              </div>
+            </div><!-- .card -->
+          </div><!-- .col -->
+          <div class="col-lg-6 col-md-6 col-sm-12">
+            <div class="card card-full">
+              <div class="card-inner">
+                <div class="card-title-group">
+                  <div class="card-title">
+                    <h6 class="title">Category Wise Phase 2</h6>
+                  </div>
+                  <div class="card-tools me-n1 mt-n1">
+                    <div class="dropdown">
+                        <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-end">
+                          <ul class="link-list-opt no-bdr">
+                            {% for forms in form_types %}
+                              {% if forms.name == "StSchFormDetails" %}
+                              <li>
+                                <a class="btn" name="action" id="form_status_button2" onclick="GetSelectedData('{{ forms.description }}','{{ forms.name }}')" value="{{ forms.name }}">{{ forms.description }}</a>
+                              </li>
+                              {% else %}
+                        
+                              <li>
+                                <a class="btn" name="action" id="form_status_button" onclick="GetSelectedData('{{ forms.description }}','{{ forms.name }}')" value="{{ forms.name }}">
+                                  {{ forms.description }}
+                                </a>
+                              </li>
+                              {% endif %}
+                            {% endfor %}
+                          </ul>
+                        </div>
+                    </div>
+                </div>
+                </div>
+              </div>
+              <div class="card-inner pt-0">
+                  <!-- Page Loader start -->
+                  <div id="loader-wrapper2" style="display: none;position: absolute;top: 0;left: 0;width: 100%;height: 100%;
+                  background-color: rgba(255, 255, 255, 0.7);align-items: center;justify-content: center;z-index: 9999;">
+                    <div id="loader" class="spinner-border" role="status">
+                      <span class="visually-hidden">Loading...</span>
+                    </div>
+                  </div>
+                  <!-- Page Loader End -->
+                <div class="card-title">
+                  <div class="title" id="form_title2"></div>
+                </div>
+                <ul class="gy-4" id="records2">
+                 
+                </ul>
+              </div>
+            </div><!-- .card -->
+          </div><!-- .col -->
+          <div class="col-sm-12 col-md-6 col-lg-6">
+            <div class="card h-100">
+                <div class="card-inner">
+                    <div class="card-title-group">
+                        <div class="card-title">
+                            <h6 class="title">Type Wise Application Count</h6>
+                        </div>
+                    </div>
+                    <div class="traffic-channel">
+                        <div class="traffic-channel-doughnut-ck">
+                            <canvas class="analytics-doughnut" id="ScholarshipApplicationCount"></canvas>
+                        </div>
+                        <div class="traffic-channel-group g-3">
+                          {% for key,value in total_applications_count_data.items %}
+                            <div class="traffic-channel-data">
+                                <div class="title">
+                                  <span class="dot dot-lg sq" data-bg="{% cycle '#9cabff' '#b8acff' '#ffa9ce' '#f9db7b' '#7de1f8' '#9C73F5' %}"></span><span>{{ key }}</span>
+                                </div>
+                                <div class="amount">{{ value }}</div>
+                            </div>
+                          {% endfor %}
+                        </div><!-- .traffic-channel-group -->
+                    </div><!-- .traffic-channel -->
+                </div>
+            </div><!-- .card -->
+          </div><!-- .col -->
+        </div><!-- .row -->
+      </div><!-- .nk-block -->
+    </div>
+  </div>
+</div>
+<!-- content @e -->
+
+{% block script %}
+
+<script>
+    console.log("data:-",{{ data|safe }},"labels:-",{{ labels|safe }})
+
+    var ScholarshipApplicationCount = {
+      labels: {{ labels|safe }},
+      dataUnit: 'students',
+      legend: false,
+      datasets: [{
+        borderColor: "#fff",
+        background: {{ chart_color|safe }},
+        data: {{ data|safe }}
+      }]
+    };
+    
+    function analyticsDoughnut(selector, set_data) {
+    var $selector = selector ? $(selector) : $('.analytics-doughnut');
+    $selector.each(function () {
+      var $self = $(this),
+        _self_id = $self.attr('id'),
+        _get_data = typeof set_data === 'undefined' ? eval(_self_id) : set_data;
+      var selectCanvas = document.getElementById(_self_id).getContext("2d");
+      var chart_data = [];
+      for (var i = 0; i < _get_data.datasets.length; i++) {
+        chart_data.push({
+          backgroundColor: _get_data.datasets[i].background,
+          borderWidth: 2,
+          borderColor: _get_data.datasets[i].borderColor,
+          hoverBorderColor: _get_data.datasets[i].borderColor,
+          data: _get_data.datasets[i].data
+        });
+      }
+      var chart = new Chart(selectCanvas, {
+        type: 'doughnut',
+        data: {
+          labels: _get_data.labels,
+          datasets: chart_data
+        },
+        options: {
+          legend: {
+            display: _get_data.legend ? _get_data.legend : false,
+            rtl: NioApp.State.isRTL,
+            labels: {
+              boxWidth: 12,
+              padding: 20,
+              fontColor: '#6783b8'
+            }
+          },
+          rotation: -1.5,
+          cutoutPercentage: 70,
+          maintainAspectRatio: false,
+          tooltips: {
+            enabled: true,
+            rtl: NioApp.State.isRTL,
+            callbacks: {
+              title: function title(tooltipItem, data) {
+                return data['labels'][tooltipItem[0]['index']];
+              },
+              label: function label(tooltipItem, data) {
+                return data.datasets[tooltipItem.datasetIndex]['data'][tooltipItem['index']] + ' ' + _get_data.dataUnit;
+              }
+            },
+            backgroundColor: '#fff',
+            borderColor: '#eff6ff',
+            borderWidth: 2,
+            titleFontSize: 13,
+            titleFontColor: '#6783b8',
+            titleMarginBottom: 6,
+            bodyFontColor: '#9eaecf',
+            bodyFontSize: 12,
+            bodySpacing: 4,
+            yPadding: 10,
+            xPadding: 10,
+            footerMarginTop: 0,
+            displayColors: false
+          }
+        }
+      });
+    });
+  }
+
+    // init chart
+    NioApp.coms.docReady.push(function () {
+      analyticsDoughnut();
+    });
+
+</script>
+
+{% endblock script %}
+
+
+<!-- Onload Get Default Data - Display Default Data Shortlisted -->
+<script>
+  window.onload = GetDefaultDataShortlisted;
+
+  function GetDefaultDataShortlisted() {
+      console.log("Phase 1")
+      var element = document.getElementById('form_status_button1');
+      var table_name = element.getAttribute('value');
+      var form_name = element.innerText;
+      console.log(table_name,form_name,"<<<<")
+      // Page Loader 
+      var loaderWrapper = document.getElementById('loader-wrapper1');
+      loaderWrapper.style.display = 'flex';  
+
+    $.ajax({
+        method:'GET',
+        url: "{% url 'dashboard' %}",
+        data:{
+            action:"get_shortlisted_data",
+            form_name:form_name,
+            table_name:table_name
+        },
+        success:function(response){
+          // Page Loader 
+          var loaderWrapper = document.getElementById('loader-wrapper1');
+          loaderWrapper.style.display = 'none';  
+          var data = response[0]
+          var form_name = response[1]
+          document.getElementById('form_title').innerHTML = form_name;
+          console.log(data)
+          // document.getElementById('msg_alert1').style.display = "none";
+          document.getElementById('records1').innerHTML = "";
+          if(data.length >= 1){
+            for(let i = 0; i < data.length; i++){
+              var category_name = data[i]['category_name']
+              var percentage_count = data[i]['percentage_count']
+              var total_shortlisted_count = data[i]['total_shortlisted_count']
+
+              var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">${category_name}</div>
+                  </div>
+                </div>
+                <div class="align-center">
+                  <div class="sub-text me-2">${percentage_count}%</div>
+                  <p class="sub-text mx-2""> ${total_shortlisted_count}</p>
+                </div>
+              </li>`
+              document.getElementById('records1').innerHTML += list_data;
+            }
+          }else{
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">Data Not Found</div>
+                  </div>
+                </div>
+              </li>`
+              document.getElementById('records1').innerHTML += list_data;
+          }
+  
+        },
+        error: function (error) {
+            console.log("error",error);
+            // Page Loader 
+            var loaderWrapper = document.getElementById('loader-wrapper1');
+            loaderWrapper.style.display = 'none';  
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">Data Not Found</div>
+                  </div>
+                </div>
+              </li>`
+              document.getElementById('records1').innerHTML += list_data;
+        }
+        
+      })
+    
+    GetDefaultDataSelected();
+
+    function GetDefaultDataSelected() {
+      console.log("Phase 2")
+      var element = document.getElementById('form_status_button2');
+      var table_name = element.getAttribute('value');
+      var form_name = element.innerText;
+      console.log(table_name,form_name,"<<<<")
+      // Page Loader 
+      var loaderWrapper = document.getElementById('loader-wrapper2');
+      loaderWrapper.style.display = 'flex';  
+
+      $.ajax({
+      method:'GET',
+      url: "{% url 'dashboard' %}",
+      data:{
+          action:"get_selected_data",
+          form_name:form_name,
+          table_name:table_name
+      },
+      success:function(response){
+        // Page Loader 
+        var loaderWrapper = document.getElementById('loader-wrapper2');
+        loaderWrapper.style.display = 'none';  
+        var data = response[0]
+        var form_name = response[1]
+        document.getElementById('form_title2').innerHTML = form_name;
+        console.log(data)
+        // document.getElementById('msg_alert2').style.display = "none";
+
+        document.getElementById('records2').innerHTML = "";
+        if(data.length >= 1){
+          for(let i = 0; i < data.length; i++){
+            var category_name = data[i]['category_name']
+            var percentage_count = data[i]['percentage_count']
+            var total_selected_count = data[i]['total_selected_count']
+
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">${category_name}</div>
+                </div>
+              </div>
+              <div class="align-center">
+                <div class="sub-text me-2">${percentage_count}%</div>
+                <p class="sub-text mx-2">${total_selected_count}</p>
+              </div>
+            </li>`
+            document.getElementById('records2').innerHTML += list_data;
+          }
+        }else{
+          var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">Data Not Found</div>
+                </div>
+              </div>
+            </li>`
+            document.getElementById('records2').innerHTML += list_data;
+        }
+ 
+      },
+      error: function (error) {
+          console.log("error",error);
+          var loaderWrapper = document.getElementById('loader-wrapper2');
+            loaderWrapper.style.display = 'none';  
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">Data Not Found</div>
+                  </div>
+                </div>
+              </li>`
+              document.getElementById('records2').innerHTML += list_data;
+      }
+      
+    })
+
+    
+    }
+    }
+</script>
+
+
+<!-- Get Shortlisted Data Display -->
+<script>
+  
+  function GetShortlistedData(form_name, table_name){
+    // Page Loader 
+    var loaderWrapper = document.getElementById('loader-wrapper1');
+    loaderWrapper.style.display = 'flex';  
+    
+    console.log("form_name:-",form_name)
+    console.log("table_name:-",table_name)
+
+    $.ajax({
+      method:'GET',
+      url: "{% url 'dashboard' %}",
+      data:{
+          action:"get_shortlisted_data",
+          form_name:form_name,
+          table_name:table_name
+      },
+      success:function(response){
+        // Page Loader 
+        var loaderWrapper = document.getElementById('loader-wrapper1');
+        loaderWrapper.style.display = 'none';  
+        var data = response[0]
+        var form_name = response[1]
+        document.getElementById('form_title').innerHTML = form_name;
+        console.log(data)
+        // document.getElementById('msg_alert1').style.display = "none";
+        document.getElementById('records1').innerHTML = "";
+        if(data.length >= 1){
+          for(let i = 0; i < data.length; i++){
+            var category_name = data[i]['category_name']
+            var percentage_count = data[i]['percentage_count']
+            var total_shortlisted_count = data[i]['total_shortlisted_count']
+
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">${category_name}</div>
+                </div>
+              </div>
+              <div class="align-center">
+                <div class="sub-text me-2">${percentage_count}%</div>
+                <p class="sub-text mx-2">${total_shortlisted_count}</p>
+                
+              </div>
+
+            </li>`
+            document.getElementById('records1').innerHTML += list_data;
+          }
+        }else{
+          var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">Data Not Found</div>
+                </div>
+              </div>
+            </li>`
+            document.getElementById('records1').innerHTML = list_data;
+        }
+ 
+      },
+      error: function (error) {
+          console.log("error",error);
+          var loaderWrapper = document.getElementById('loader-wrapper1');
+            loaderWrapper.style.display = 'none';  
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">Data Not Found</div>
+                  </div>
+                </div>
+              </li>`
+              document.getElementById('records1').innerHTML = list_data;
+      }
+      
+    })  
+  }
+</script>
+
+<!-- Get Selected Data Display -->
+<script>
+  function GetSelectedData(form_name, table_name){
+    // Page Loader 
+    var loaderWrapper = document.getElementById('loader-wrapper2');
+    loaderWrapper.style.display = 'flex';  
+    $.ajax({
+      method:'GET',
+      url: "{% url 'dashboard' %}",
+      data:{
+          action:"get_selected_data",
+          form_name:form_name,
+          table_name:table_name
+      },
+      success:function(response){
+        // Page Loader 
+        var loaderWrapper = document.getElementById('loader-wrapper2');
+        loaderWrapper.style.display = 'none';  
+        var data = response[0]
+        var form_name = response[1]
+        document.getElementById('form_title2').innerHTML = form_name;
+        console.log(data)
+        // document.getElementById('msg_alert2').style.display = "none";
+
+        document.getElementById('records2').innerHTML = "";
+        if(data.length >= 1){
+          for(let i = 0; i < data.length; i++){
+            var category_name = data[i]['category_name']
+            var percentage_count = data[i]['percentage_count']
+            var total_selected_count = data[i]['total_selected_count']
+
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">${category_name}</div>
+                </div>
+              </div>
+              <div class="align-center">
+                <div class="sub-text me-2">${percentage_count}%</div>
+                <p class="sub-text mx-2">${total_selected_count}</p>
+              </div>
+            </li>`
+            document.getElementById('records2').innerHTML += list_data;
+          }
+        }else{
+          var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+              <div class="align-center">
+                <div class="ms-2">
+                  <div class="lead-text">Data Not Found</div>
+                </div>
+              </div>
+            </li>`
+            document.getElementById('records2').innerHTML = list_data;
+        }
+ 
+      },
+      error: function (error) {
+          console.log("error",error);
+          var loaderWrapper = document.getElementById('loader-wrapper2');
+            loaderWrapper.style.display = 'none';  
+            var list_data = `<li class="justify-between align-center border-bottom border-0 border-dashed">
+                <div class="align-center">
+                  <div class="ms-2">
+                    <div class="lead-text">Data Not Found</div>
+                  </div>
+                </div>
+              </li>`
+              document.getElementById('records2').innerHTML = list_data;
+      }
+      
+    })
+  }
+</script>
+
+{% endblock content %}

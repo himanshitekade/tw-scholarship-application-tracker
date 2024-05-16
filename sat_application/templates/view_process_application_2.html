@@ -1,0 +1,330 @@
+<!-- COPY THE CONTENTS OF THIS FILE TO YOUR TABLE VIEW -->
+<!-- PS: CHANGE THE CLASSES AS REQUIRED. DO NOT CHANGE THE ACTION, NAME AND VALUE ATTRIBUTES -->
+
+<!-- This page linked with view_table_process2.html -->
+{% extends 'base.html' %}
+{% load static %}
+{% load custom_tags %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'assets/css/dashlite.css' %}">
+<link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+<!-- Page Loader start -->
+<div id="loader-wrapper" style="display: none;align-items: center;justify-content: center;position: fixed;
+    top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.5); z-index: 9999; ">
+    <div id="loader" class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+</div>
+<!-- Page Loader End -->
+
+
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block nk-block-lg">
+                    <div class="nk-block-head">
+                        <div class="nk-block-head-content">
+                            <h3>Shortlisted View</h3>
+                            <div class="row g-gs">
+                                <div class="card card-preview">
+                                    <div class="card-inner">
+                                        <form onsubmit="return false">
+                                            <div class="row g-gs">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Select Application Type</label>
+                                                        <span style="color:red;">*</span>
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select field" id="application_type" name="action" required onchange="CategoryValue(this)">
+                                                                <option value="" selected disabled>--select--</option>
+                                                                {% for form_type in form_types %}
+                                                                <option value="{{ form_type.name }}">{{ form_type.description }}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Select Category</label>
+                                                        <span style="color:red;" id="category_red_dot">*</span>
+                                                        <div class="form-control-wrap">
+                                                            <select class="form-select field" id="category" name="category" required>
+                                                            
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row g-gs mt-1">
+                                                <div class="col-sm-6">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Status Filter</label><br>
+                                                        {% for status in form_status %}
+                                                            <input type="checkbox" id="{{status.name}}" name="status" value="{{status.name}}" checked>
+                                                            <label for="{{status.name}}" class="mx-1">{{status.name}}</label>
+                                                        {% endfor %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="mt-3">
+                                                        <button class="btn btn-lg-block btn-outline-primary" type="submit" id="submit" value="submit" onclick="GetTableData()">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- content @s -->
+<div class="nk-content nk-content-fluid">
+    <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+            <div class="components-preview wide-xl mx-auto">
+                <div class="nk-block nk-block-lg">
+                    
+                    <div class="card card-preview" id="Show_table">
+
+                       <!-- Table View -->
+                       <div id="refresh-section">
+                            {% include 'view_table_process2.html' %}
+                        </div>
+ 
+                    </div><!-- .card-preview -->
+                    <!-- Modal Start -->
+                        <!-- Modal -->
+                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Student Details</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="modal-name">Name:</label>
+                                            <input type="text" id="modal-name" class="form-control" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-email">Email:</label>
+                                            <input type="text" id="modal-email" class="form-control" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-mobile">Mobile:</label>
+                                            <input type="text" id="modal-mobile" class="form-control" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="modal-address">Address:</label>
+                                            <input type="text" id="modal-address" class="form-control" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal Ends -->
+                    
+                </div> <!-- nk-block -->
+            </div><!-- .components-preview -->
+        </div>
+    </div>
+</div>
+<!-- content @e -->
+
+<script src="{% static 'assets/js/bundle.js' %}"></script>
+<script src="{% static 'assets/js/scripts.js' %}"></script>
+<script src="{% static 'assets/js/libs/datatable-btns.js' %}"></script>
+<!-- ================== Application Status Change ================== -->
+<script>
+    function StatusChange(id,status_value){
+        console.log("id",id)
+        console.log("val",status_value)
+        // Db Model name
+        var table_name = document.getElementById("application_type").options[document.getElementById("application_type").selectedIndex].value;  
+        // Category id
+        var category = document.getElementById("category").options[document.getElementById("category").selectedIndex].value;  
+        console.log(application_type,category)
+        // Status values
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        var values = ""
+        checkboxes.forEach(function(checkbox) {
+            values = values + checkbox.value+","
+        });
+
+        
+        $.ajax({
+        method:'GET',
+        url: "{% url 'view_process_applications2' %}",
+        data:{
+            id:id,
+            table_name : table_name,
+            category : category,
+            status_value : status_value,
+            action:"form_status",
+            status:values
+        },      
+        success:function(data){
+            // Adding Table &  Row,Column Data
+            $('#refresh-section').html(data);
+            var msg = document.getElementById("msg").textContent;
+            var status = document.getElementById("status").textContent
+            console.log(">>>",status,msg)
+            // Sweet Alert PopUp
+            if(status === 'Updated'){
+                console.log(msg)
+                Swal.fire('Updated!', 'Status is updated to ' + msg, 'success')
+                .then((result) => {
+                    console.log(result)
+                    /* Read more about isConfirmed, isDenied below */
+                    if (result.isConfirmed) {
+                        // location.reload()
+                        console.log("Updated")
+                    } else {
+                        location.reload()
+                    }
+                });
+
+            }else
+            {
+                Swal.fire('Not updated!', 'Status was not updated', 'error');
+            }
+            
+            }
+
+    })
+
+    }
+</script>
+
+
+<!-- ================== get Modal Data ================== -->
+<script>
+    function GetModalData(name,email,mobile,address){
+        console.log('name:',name,"email:",email,"Mobile:",mobile,"address:",address)
+        document.getElementById("modal-name").value = name;
+        document.getElementById("modal-email").value = email;
+        document.getElementById("modal-mobile").value = mobile;
+        document.getElementById("modal-address").value = address;
+    }
+</script>
+
+<!-- ================== Get Category dropdown values ================== -->
+<script>
+    function CategoryValue(option){
+     // Selected Application type
+      var value = document.getElementById("application_type").options[document.getElementById("application_type").selectedIndex].text;  
+      
+      console.log(value)
+    //   Value of selected application type
+      var id = value
+      console.log("ID", id)
+      $.ajax({
+          method:'GET',
+          url: "{% url 'view_process_applications2' %}",
+          data:{
+              parent_id:id,
+              action:"get_category",
+          },
+          success:function(data){
+            console.log("data:-",data)
+            console.log(typeof data)
+            console.log("DATA", data.length)
+
+            // Started For one category
+            var category = document.getElementById('category')
+            document.getElementById('category').innerHTML = ""
+             // if only one category exist
+            if(data.length === 1){
+                for(i = 0; i < data.length; i++){
+                    var option = document.createElement("option");
+                    option.value = data[i].id;
+                    option.textContent = data[i].category_name;
+                    category.appendChild(option);
+                    category.disabled = true;
+                }
+            }
+            // If more than one category exists
+            else{
+                var option = document.createElement("option");
+                // Adding attributes to Tag
+                option.setAttribute("disabled", "true");
+                option.setAttribute("selected", "selected");
+                option.value ="";
+                option.textContent = "--select--";
+                category.appendChild(option);
+                // Adding Option with value
+                for(i = 0; i < data.length; i++){
+                    var option = document.createElement("option");
+                    option.value = data[i].id;
+                    option.textContent = data[i].category_name;
+                    category.appendChild(option);
+                    category.disabled = false;
+              }
+            }
+            // End 
+            
+          }
+        })   
+    }
+</script>
+
+
+<!-- ================== Get Table Data ================== -->
+<script>
+    function GetTableData(){
+        // Make an AJAX request to fetch the table data
+        // Db Model name
+        var application_type = document.getElementById("application_type").options[document.getElementById("application_type").selectedIndex].value;  
+        // Category id
+        var category = document.getElementById("category").options[document.getElementById("category").selectedIndex].value;  
+        if(application_type != "" && category != ""){
+            // Page Loader 
+            var loaderWrapper = document.getElementById('loader-wrapper');
+            loaderWrapper.style.display = 'flex';
+
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            // var values = [];
+            var values = ""
+            checkboxes.forEach(function(checkbox) {
+                values = values + checkbox.value+","
+            });
+            
+            $.ajax({
+            url: "{% url 'view_process_applications2' %}",
+            method: "GET",
+            data: {
+                table_name:application_type,
+                category:category,
+                status:values,
+                action:"get_table_data",  // Provide the category value as needed
+                
+            },
+            success: function (data) {
+                // Page Loader 
+                var loaderWrapper = document.getElementById('loader-wrapper');
+                loaderWrapper.style.display = 'none';
+                console.log("success")
+                $('#refresh-section').html(data);            
+                
+            },
+            error: function (error) {
+                console.log("error",error);
+            }
+        });
+        }
+    };
+</script>
+
+{% endblock content %}
+<!-- END OF TABLE -->

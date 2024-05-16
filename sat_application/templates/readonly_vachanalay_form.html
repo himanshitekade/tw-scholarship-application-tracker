@@ -1,0 +1,749 @@
+{% extends 'base_readonly.html' %}
+{% load static %}
+{% block content %}
+
+
+<!-- content @s -->
+        <div class="nk-content nk-content-fluid">
+          <div class="container-xl wide-xl">
+            <div class="nk-content-body">
+              <div class="nk-block-head nk-block-head-sm">
+                <div class="nk-block-between">
+                  <div class="nk-block-head-content">
+                    <h6 class="nk-block-title page-title">Vachnalaya Scholarship Form</h6>
+                 <div class="nk-block-des text-soft">
+                  {% if messages %}
+                      {% for message in messages %}   
+                          <div class="example-alert">
+                            <div class="alert alert-{{ message.tags}} alert-dismissible alert-icon"><strong>{{message}}</strong><button class="close" data-bs-dismiss="alert"></button>
+                            </div>
+                        </div>
+                      {% endfor %}   
+                  {% endif %}
+                </div>
+                  </div><!-- .nk-block-head-content -->
+                  {% if 'Back Button' not in privileges %}
+                  <button onclick="history.back()" style="float:right;" class="btn btn-primary"><em class="icon ni ni-arrow-left"></em>Back</button>
+                  {% endif %}
+                </div><!-- .nk-block-between -->
+              </div><!-- .nk-block-head -->
+              <form action="{% url 'vachanalayform' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %} 
+                <div class="nk-block">
+                  <div class="row g-gs">
+                    <div class="col-lg-12">
+                      <div class="card card-bordered card-preview">
+                        <div class="card-inner">
+                          <div class="preview-block">
+                            <div class="row gy-4">
+                              <span class="preview-title-lg overline-title">Personal Info</span>
+                              <input type="text" hidden name="id" value="{{form_saved_data.id}}">
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="name">Name of Vachanalaya</label><span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="name" name="name" placeholder="Enter name of Vachanalaya" {% if form_saved_data %} value="{{form_saved_data.name}}" {% else %} value="" {% endif %} readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6"> 
+                                <div class="form-group">
+                                  <label class="form-label" for="authority_name">Name of Main Authority</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" 
+                                    id="authority_name" {% if form_saved_data %} value="{{form_saved_data.authority_name}}" {% else %} value="" {% endif %}
+                                      placeholder="Enter name of authority" name="authority_name"
+                                      readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="mobile">Mobile Number</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="tel" class="form-control field" id="mobile" name="mobile" 
+                                      placeholder="Enter mobile number" maxlength="13" pattern="(\+91)?[0-9]{10}" {% if form_saved_data %} value="{{form_saved_data.mobile}}" {% else %} value="+91" {% endif %}  readonly
+                                      onkeypress="return event.charCode>=48 && event.charCode<=57">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="landline_no">Landline Number</label>
+                                  <div class="form-control-wrap">
+                                    <input type="tel" pattern="[0-9]{11}" placeholder="Enter landline number" class="form-control field" id="landline_no" name="landline_no" 
+                                      {% if form_saved_data %} value="{{form_saved_data.landline_no|stringformat:'s'|slice:'3:'}}" {% else %} value="" {% endif %}   
+                                      onkeypress="return event.charCode>=48 && event.charCode<=57" readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <!-- <hr class="preview-hr"> -->
+                              <span class="preview-title-lg overline-title">Address</span>
+                              <div class="col-sm-8">
+                                <div class="form-group">
+                                  <label class="form-label" for="address">Address</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="address" name="address" {% if form_saved_data %} value="{{form_saved_data.address}}" {% else %} value="" {% endif %}  placeholder="Enter your address" readonly>
+                                  </div>
+                                </div>
+                              </div>
+                          <div class="col-sm-4">
+                          <div class="form-group">
+                            <label class="form-label">District</label>
+                            <span style="color:red;">*</span>
+                            <div class="form-control-wrap"> 
+                              <select class="form-select field" id="district" name="district" disabled onchange="DistrictValue(this)" 
+                              >
+                                {% if not form_saved_data.district %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+                                {% for dist in districts %}
+                                  {% if District_id == dist.id %}
+                                    <option value="{{dist.id}}" selected>{{ dist.name }}</option>
+                                  {% else %}
+                                  <option value="{{dist.id}}">{{dist.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4" id="div_taluka">
+                          <div class="form-group">
+                            <label class="form-label">Taluka</label>
+                            <span id="taluka_red_dot" style="color:red;">*</span>
+                            <div class="form-control-wrap">
+                              <select class="form-select field" id="taluka" name="taluka" 
+                              disabled onchange="TalukaOtherAppend(this)">
+                                {% if not form_saved_data.taluka %}
+                                <option value="" selected disabled>--select--</option> 
+                                {% endif %}
+  
+                                {% for taluka in talukas %}
+                                  {% if form_saved_data.taluka == taluka.name %}
+                                    <option value="{{taluka.name}}" selected>    
+                                    {{ taluka.name }}
+                                  </option>
+                                  {% else %}
+                                  <option value="{{taluka.name}}">{{taluka.name}}</option>
+                                  {% endif %}
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                          <div class="col-sm-4" id="other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_district">Other District</label> 
+                            <span id="other_district_red_dot" style="color:red;">*</span>   
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_district"
+                               name="other_district" placeholder = "Enter your district here" 
+                               {% if form_saved_data.other_district %} value="{{ form_saved_data.other_district }}" {% endif%} readonly>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4" id="taluka_other" style="display: None;">
+                          <div class="form-group">
+                            <label class="form-label" for="other_taluka">Other Taluka</label>
+                            <span id="other_taluka_red_dot" style="color:red;">*</span>   
+                            <div class="form-control-wrap">
+                              <input type="text" class="form-control field" id="other_taluka"
+                               name="other_taluka" placeholder = "Enter your taluka here" 
+                               {% if form_saved_data.other_taluka %} value="{{ form_saved_data.other_taluka }}" {% endif%} readonly>
+                            </div>
+                          </div>
+                        </div>   
+                              <div class="col-sm-4" hidden>
+                                <div class="form-group">
+                                  <label class="form-label" for="mulgaon">Mulgaon</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="mulgaon" name="mulgaon" placeholder="Enter your mulgaon" {% if form_saved_data %} value="{{form_saved_data.mulgaon}}" {% else %} value="" {% endif %} >
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-4">
+                                <div class="form-group">
+                                  <label class="form-label" for="pincode">Pincode</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <div class="form-group">
+                                      <input type="text" class="form-control field" id="pincode" name="pincode"  placeholder="Enter your pincode" pattern="[0-9]{6}" maxlength="6"  {% if form_saved_data %} value="{{form_saved_data.pincode}}" {% else %} value="" {% endif %} readonly>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row gy-4 align-center">
+                              <span class="preview-title-lg overline-title" style="padding-top: 33px;">Other Details</span>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="organization_started">Date when the Vachanalay was started ?</label>
+                                    <span style="color:red;">*</span>
+                                    <div class="form-control-wrap">
+                                      <input type="date" class="form-control field" id="organization_started" name="organization_started" 
+                                        placeholder="Enter Vachanalay start date" {% if form_saved_data %} value="{{date_organization_started}}" {% else %} value="" {% endif %}  disabled>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label">Is the Vachanalay registered with Charity Zilha had ParisCommissioner ?<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <select class="form-select field" id="is_org_register" name="is_org_register" disabled onchange="OrgRegvalidation(this)">
+                                        <!-- {% if not form_saved_data.is_org_register %}
+                                      <option value="" selected disabled>--select--</option> 
+                                      <option value=True>Yes</option>
+                                      <option value=False>No</option>
+                                      {% endif %} -->
+                                      {% if form_saved_data.is_org_register == True %}
+                                      <option value=True selected>Yes</option>
+                                      <option value=False>No</option>  
+                                      {% elif form_saved_data.is_org_register == False %}
+                                      <option value=True>Yes</option>
+                                      <option value=False selected>No</option>
+                                      {% else %}
+                                      <option value="" selected disabled>--select--</option> 
+                                      <option value=True>Yes</option>
+                                      <option value=False>No</option>
+                                      {% endif %}
+                                      </select>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="org_register_certificate">Kindly upload the registration certificate.</label>
+                                    <span id="org_reg_readonly" style="color:red;">*</span>
+                                    <div class="form-control-wrap">
+                                      {% if form_saved_data.org_register_certificate %}
+                                      <a href="{{form_saved_data.org_register_certificate.url}}" target="_blank" id="org_register_certificate_anchor">{{form_saved_data.org_register_certificate}}</a>
+                                      {% endif %}
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label">Have you received aid before ?</label><span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <select class="form-select field" id="is_scholarship_recevied" name="is_scholarship_recevied" disabled>
+                                      <!-- {% if not form_saved_data.is_scholarship_recevied %}
+                                      <option value="" selected disabled>--select--</option> 
+                                      <option value=True>Yes</option>
+                                      <option value=False>No</option>
+                                      {% endif %} -->
+                                      {% if form_saved_data.is_scholarship_recevied == True %}
+                                      <option value=True selected>Yes</option>
+                                      <option value=False>No</option>  
+                                      {% elif form_saved_data.is_scholarship_recevied == False %}
+                                      <option value=True>Yes</option>
+                                      <option value=False selected>No</option>
+                                      {% else %}
+                                      <option value="" selected disabled>--select--</option> 
+                                      <option value=True>Yes</option>
+                                      <option value=False>No</option>
+                                      {% endif %}
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row gy-4 align-center">
+                              <span class="preview-title-lg overline-title" style="padding-top: 33px;">Book Details</span>
+                             <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="student_book_count_first_year">Please enter the category wise number of books available in Vachanalay in year (in 2020 to 2021)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="student_book_count_first_year" name="student_book_count_first_year" placeholder="Please enter the category wise number of books available in Vachanalay in year (in 2020 to 2021)" readonly {% if form_saved_data %} value ="{{form_saved_data.student_book_count_first_year}}"{% endif %}>{% if form_saved_data %}{{form_saved_data.student_book_count_first_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="student_book_count_second_year">Please enter the category wise number of books available in Vachanalay in year (in 2021 to 2022) <span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="student_book_count_second_year" name="student_book_count_second_year" placeholder="Please enter the category wise number of books available in Vachanalay in year  (in 2021 to 2022)" readonly {% if form_saved_data %}value="{{form_saved_data.student_book_count_second_year}}"{% endif %}>{% if form_saved_data %}{{form_saved_data.student_book_count_second_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="student_book_count_third_year">Please enter the category wise number of books available in Vachanalay in year (in 2022 to 2023)  <span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="student_book_count_third_year" name="student_book_count_third_year" placeholder="Please enter the category wise number of books available in Vachanalay in year  (in 2022 to 2023)"readonly{% if form_saved_data %} value="{{form_saved_data.student_book_count_third_year}}"{% endif %}>{%if form_saved_data %}{{form_saved_data.student_book_count_third_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="student_count_current_year">Please enter the category wise number of books available in Vachanalay of current year (2023-2024)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="student_count_current_year" name="student_count_current_year" placeholder="Please enter the category wise number of books available in Vachanalay in year  (in 2023 to 2024)"readonly{% if form_saved_data %} value="{{form_saved_data.student_count_current_year}}"{% endif %}>{%if form_saved_data %}{{form_saved_data.student_count_current_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            <div class="row gy-4 align-center">
+                              <span class="preview-title-lg overline-title" style="padding-top: 33px;">Financial Details</span>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="expenditure_first_year">Please enter the details of expenditure of Vachnalaya in financial year 2020-2021. (It should contain the total expenditure of the year and the itemised details of the expenditure like salary, food,etc )<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                    <textarea rows="4" cols="50" class="form-control field" id="expenditure_first_year" name="expenditure_first_year" 
+                                    placeholder="Please enter the details of expenditure of Vachnalaya in financial year 2020-2021."{%if form_saved_data%} value="{{form_saved_data.expenditure_first_year}}"{% endif %} readonly>{% if form_saved_data %}{{form_saved_data.expenditure_first_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="expenditure_second_year">Please enter the details of expenditure of Vachnalaya in financial year 2021-2022. (It should contain the total expenditure of the year and the itemised details of the expenditure like salary, food,etc )<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                    <textarea rows="4" cols="50" class="form-control field" id="expenditure_second_year" name="expenditure_second_year" 
+                                    placeholder="Please enter the details of expenditure of Vachnalaya in financial year 2021-2022." readonly
+                                    {% if form_saved_data %}value="{{form_saved_data.expenditure_second_year}}"{% endif %}>{% if form_saved_data%}{{form_saved_data.expenditure_second_year}}{% endif%}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="expenditure_third_year">Please enter the details of expenditure of Vachnalaya in financial year 2022-2023. (It should contain the total expenditure of the year and the itemised details of the expenditure like salary, food,etc )<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                    <textarea rows="4" cols="50" class="form-control field" id="expenditure_third_year" name="expenditure_third_year" 
+                                      placeholder="Please enter the details of expenditure of Vachnalaya in financial year 2022-2023."{% if form_saved_data %}value="{{form_saved_data.expenditure_third_year}}"{% endif %}readonly>{% if form_saved_data%}{{form_saved_data.expenditure_third_year}}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="details_source_income">The details of source of income of Vachanalay. (donations, grants, sponsorships etc.)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="details_source_income" name="details_source_income" 
+                                        placeholder=" Enter the details of source of income of Vachanalay." readonly {% if form_saved_data %} value = "{{form_saved_data.details_source_income }}"{% endif %}>{% if form_saved_data %} {{form_saved_data.details_source_income }}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="item_details_expense">Itemised details of expenses of Vachanalay during last financial year.(i.e.from 1st April 2022 to 31st March 2023)
+                                    <span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="item_details_expense" name="item_details_expense" 
+                                        placeholder=" Enter itemised details of expenses of Vachanalay during last financial year." {% if form_saved_data %}value="{{form_saved_data.item_details_expense }}"{% endif %} readonly>{% if form_saved_data %}{{form_saved_data.item_details_expense }} {% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="employee_details">Specify the name of employees of School along with their details.(Full name, Designation, salary, date of birth, date of joining School)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      <textarea rows="4" cols="50" class="form-control field" id="employee_details" name="employee_details" 
+                                        placeholder="Enter the name of employees of School along with their details" readonly {% if form_saved_data %} value="{{form_saved_data.employee_details }}"{% endif %}>{% if form_saved_data %} {{form_saved_data.employee_details }}{% endif %}</textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="current_total_expenditure">Total expenditure of (Vachanalay) during last financial year. (i.e. from 1st April 2022 to 31st March 2023) <span style="color:red;">*</span></label>
+                                    
+                                    <div class="form-control-wrap">
+                                      <input type="text" class="form-control field" id="current_total_expenditure" name="current_total_expenditure"
+                                        placeholder="Enter total expenditure during last financial year" {% if form_saved_data %} value="{{form_saved_data.current_total_expenditure}}" {% else %} value="" {% endif %} readonly>
+                                    </div>
+                                  </div>
+                              </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                      <label class="form-label" for="bank_statement_first_year">Bank Statement or copy of passbook (from 1st April 2020 to 31st March 2021)<span style="color:red;">*</span></label>
+                                      <div class="form-control-wrap">
+                                        {% if form_saved_data.bank_statement_first_year %}
+                                        <a href="{{form_saved_data.bank_statement_first_year.url}}" target="_blank">{{form_saved_data.bank_statement_first_year}}</a>
+                                        {% endif %}
+                                        
+                                      </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="bank_statement_second_year">Bank Statement or copy of passbook (from 1st April 2021 to 31st March 2022)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      {% if form_saved_data.bank_statement_second_year %}
+                                      <a href="{{form_saved_data.bank_statement_second_year.url}}" target="_blank">{{form_saved_data.bank_statement_second_year}}</a>
+                                      {% endif %}
+                                     
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="col-sm-6">
+                                  <div class="form-group">
+                                    <label class="form-label" for="bank_statement_third_year">Bank Statement or copy of passbook for last financial year. (i.e. from 1st April 2022 to 31st March 2023)<span style="color:red;">*</span></label>
+                                    <div class="form-control-wrap">
+                                      {% if form_saved_data.bank_statement_third_year %}
+                                      <a href="{{form_saved_data.bank_statement_third_year.url}}" target="_blank">{{form_saved_data.bank_statement_third_year}}</a>
+                                      {% endif %}
+                                      
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+                            <div class="row gy-4">
+                              <span class="preview-title-lg overline-title" style="padding-top: 33px;">Bank
+                                Details</span>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="branch_name">Name of Bank</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="bank_name" name="bank_name" placeholder="Enter bank name" readonly {% if form_saved_data %} value="{{form_saved_data.bank_name}}" {% else %} value="" {% endif %}>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="account_no">Account Number</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="account_no" name="account_no" placeholder="Enter account number" readonly pattern="[0-9]{6,20}"
+                                    {% if form_saved_data %} value="{{form_saved_data.account_no}}" {% else %} value="" {% endif %}
+                                    onkeypress="return event.charCode>=48 && event.charCode<=57">
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="account_holder">Account Holder Name</label><span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" name="account_holder"
+                                    id="account_holder" placeholder="Enter account holder name" 
+                                   {% if form_saved_data %} value="{{form_saved_data.account_holder}}" {% else %} value="" {% endif %} readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="branch_name">Branch Name</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="branch_name" name="branch_name" placeholder="Enter branch name"
+                                    {% if form_saved_data %} value="{{form_saved_data.branch_name}}" {% else %} value="" {% endif %} readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="ifsc_code">IFSC code</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    <input type="text" class="form-control field" id="ifsc_code" name="ifsc_code" 
+                                      placeholder="Enter IFSC code"  {% if form_saved_data %} value="{{form_saved_data.ifsc_code}}" {% else %} value="" {% endif %}  maxlength="11" minlength="11" readonly>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-sm-6">
+                                <div class="form-group">
+                                  <label class="form-label" for="cancelled_cheque">Copy of cancelled cheque</label>
+                                  <span style="color:red;">*</span>
+                                  <div class="form-control-wrap">
+                                    {% if form_saved_data.cancelled_cheque %}
+                                      <a href="{{form_saved_data.cancelled_cheque.url}}" target="_blank">{{form_saved_data.cancelled_cheque}}</a>
+                                      {% endif %}
+                                    
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-sm-6" hidden>
+                              <div class="form-control-wrap">
+                                <label class="form-label">Select Session</label>
+                                <span style="color:red;">*</span>
+                                <select class="form-select field" id="vachanalay_form_session" name="vachanalay_form_session" >
+                                <option value="1" selected >2023</option> 
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        </form>
+        <!-- content @e -->
+      </div>
+  <!-- wrap @e -->
+</div>
+<!-- main @e -->
+</div>
+
+<!-- start :: on load other district and taluka -->
+<script>
+  var x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+  console.log("x:",x)
+  var other = document.getElementById('other')
+  var taluka_other = document.getElementById('taluka_other')
+
+  if(x === "Other"){
+    document.getElementById("div_taluka").style.display = "none";
+    document.getElementById('taluka').removeAttribute('readonly');
+    document.getElementById('taluka_red_dot').innerHTML = ""
+
+    other.style.display = "block";
+    other.setAttribute('readonly','')
+    document.getElementById('other_district_red_dot').innerHTML = "*"
+    
+
+    taluka_other.style.display = "block";
+    taluka_other.setAttribute('readonly','')
+    document.getElementById('other_taluka_red_dot').innerHTML = "*"
+     
+    
+  }
+  else{
+    var y = document.getElementById("taluka").options[document.getElementById("taluka").selectedIndex].text;
+    if (y === "Other"){
+      taluka_other.style.display = "block";
+      taluka_other.setAttribute('readonly','')
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+    }
+    else{
+      taluka_other.style.display = "none";
+      taluka_other.removeAttribute('readonly')
+      document.getElementById('other_taluka_red_dot').innerHTML = ""
+    }
+
+
+    document.getElementById("div_taluka").style.display = "block";
+    document.getElementById('taluka').setAttribute('readonly');
+    document.getElementById('taluka_red_dot').innerHTML = "*" 
+    
+    other.style.display = "none";
+    other.removeAttribute('readonly')
+    document.getElementById('other_district_red_dot').innerHTML = ""
+
+    taluka_other.style.display = "none";
+    taluka_other.removeAttribute('readonly')
+    document.getElementById('other_taluka_red_dot').innerHTML = ""
+
+  }
+</script>
+<!-- end :: on load other district and taluka -->
+
+ 
+<!-- onload :: org_register_certificate is required or not -->
+<script>
+  var x = document.getElementById("is_org_register").options[document.getElementById("is_org_register").selectedIndex].value;
+  if(x == "True") {
+        var cert = document.getElementById('org_register_certificate_anchor')
+        if (cert === null){
+          // document.getElementById('org_register_certificate').setAttribute('required' , ''); 
+          document.getElementById('org_reg_readonly').innerHTML = " *" 
+        }
+        else{
+          // document.getElementById('org_register_certificate').removeAttribute('required');
+          document.getElementById('org_reg_readonly').innerHTML = ""
+        }
+        
+      }
+      else { 
+        // document.getElementById('org_register_certificate').removeAttribute('required');
+        document.getElementById('org_reg_readonly').innerHTML = "" 
+      }
+</script>
+
+<!-- readonly -->
+<script>
+function remove_input_attribute() {
+  console.log("Entered in console")
+  const inputs = document.querySelectorAll('.field');
+
+  for (const input of inputs) {
+    if (input.id === 'st_vachanalay_session') {
+      // ✅ Set readonly attribute
+      input.setAttribute('readonly', 'readonly');
+    } else {
+      // ❌ Remove readonly attribute
+      input.removeAttribute('readonly');
+    }
+  }
+}
+</script>
+<!-- readonly -->
+<script >
+  function OrgRegvalidation(option) {
+      if(option.value == "True") {
+        var cert = document.getElementById('org_register_certificate_anchor')
+        if (cert === null){
+          // document.getElementById('org_register_certificate').setAttribute('readonly' , ''); 
+          document.getElementById('org_reg_readonly').innerHTML = " *" 
+        }
+        else{
+          // document.getElementById('org_register_certificate').removeAttribute('readonly');
+          document.getElementById('org_reg_readonly').innerHTML = ""
+        }
+        
+      }
+      else { 
+        // document.getElementById('org_register_certificate').removeAttribute('readonly');
+        document.getElementById('org_reg_readonly').innerHTML = "" 
+      }
+    }
+</script>
+
+<!-- District -->
+<script>
+  function DistrictValue(option){
+    value = option.value
+
+    var x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+    console.log("x:",x)
+    var other = document.getElementById('other')
+    var taluka_other = document.getElementById('taluka_other')
+
+    if(x === "Other"){
+      console.log("District if")
+      document.getElementById("div_taluka").style.display = "none";
+      document.getElementById('taluka').removeAttribute('readonly');
+      document.getElementById('taluka_red_dot').innerHTML = ""
+
+      other.style.display = "block";
+      other.setAttribute('readonly','')
+      document.getElementById('other_district_red_dot').innerHTML = "*"
+      
+
+      taluka_other.style.display = "block";
+      taluka_other.setAttribute('readonly','')
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+       
+      
+    }
+    else{
+      console.log("District else")
+      document.getElementById("div_taluka").style.display = "block";
+      document.getElementById('taluka').setAttribute('readonly','');
+      document.getElementById('taluka_red_dot').innerHTML = "*" 
+      
+      other.style.display = "none";
+      other.removeAttribute('readonly')
+      document.getElementById('other_district_red_dot').innerHTML = ""
+      console.log("other",other)
+
+      taluka_other.style.display = "none";
+      taluka_other.removeAttribute('readonly')
+      document.getElementById('other_taluka_red_dot').innerHTML = ""
+      console.log("tal other",other)
+
+    }
+    var id = value
+    console.log("ID", id)
+    $.ajax({
+        method:'GET',
+        url: "{% url 'vachanalayform' %}",
+        data:{
+            parent_id:id,
+            action:"district",
+        },
+        success:function(data){
+          console.log("DATA", data.length)
+          var taluka = document.getElementById('taluka')
+          document.getElementById('taluka').innerHTML = ""
+          var option = document.createElement("option");
+           option.value ="";
+            option.textContent = "--select--";
+            taluka.appendChild(option);
+        
+          if(data.length > 0){
+            
+            for(i = 0; i < data.length; i++){
+            var option = document.createElement("option");
+            console.log(data[i].name, "--------------")
+            option.value = data[i].name;
+            option.textContent = data[i].name;
+            taluka.appendChild(option);
+            }
+          }
+        }
+      })
+
+      // if(x === "Other"){
+      //   console.log(".....")
+      // }
+      // else{
+      //   console.log("===")
+      //   var readonlyField = document.getElementById('taluka')
+      //   var taluka_red_dot = document.getElementById('taluka_red_dot')
+      //   readonlyField.setAttribute('readonly', '')
+      //   taluka_red_dot.style.display = "inline"
+      // }
+
+  }
+</script>
+<!-- District -->
+
+<script>
+  function OtherAppend(option){
+    value = option.value
+    console.log("value",value)
+    // Test start
+    let x = document.getElementById("district").options[document.getElementById("district").selectedIndex].text;
+    console.log("x:",x)
+    
+    var other = document.getElementById('other')
+    var taluka_other = document.getElementById('taluka_other')
+
+    if(x === "Other") {   
+      other.style.display = "block";
+      taluka_other.style.display = "block";
+    }
+    else {
+
+      other.style.display = "none";
+      taluka_other.style.display = "none";
+    }
+    // Test End
+
+    // var other = document.getElementById('other')
+    // var taluka_other = document.getElementById('taluka_other')
+    // if(value == 3) {   
+    //     other.style.display = "block";
+    //     taluka_other.style.display = "block";
+    // }
+    // else {
+    //     other.style.display = "none";
+    //     taluka_other.style.display = "none";
+    // }
+
+  }
+  
+</script>
+
+<script>
+  function TalukaOtherAppend(option){
+    value = option.value
+    console.log("value", value)
+    var taluka_other = document.getElementById('taluka_other')
+    if(value === 'Other'){
+      taluka_other.style.display = "block";
+      taluka_other.setAttribute('readonly')
+      document.getElementById('other_taluka_red_dot').innerHTML = "*"
+
+    }
+    else{
+      taluka_other.style.display = "none";
+      taluka_other.removeAttribute('readonly')
+      document.getElementById('other_taluka_red_dot').innerHTML = ""
+    }
+  }
+</script>
+
+
+
+{% endblock content %}

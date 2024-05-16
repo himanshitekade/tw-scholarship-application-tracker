@@ -1,0 +1,1006 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<!-- LOAN APPLICATION DETAILS -->
+{% if is_applied == True and is_loan_applicant == True %}
+
+<div class="nk-content nk-content-fluid">
+      <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between g-3">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Loan Form Details</h3>
+                <!-- <div class="nk-block-des text-soft">
+                  <ul class="list-inline">
+                    <li>Submited At: <span class="text-base">18 Dec, 2019 01:02 PM</span></li>
+                  </ul>
+                </div> -->
+              </div>
+             <!--  <div class="nk-block-head-content">
+                <a href="html/kyc-list-regular.html"
+                  class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                    class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                <a href="html/kyc-list-regular.html"
+                  class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em
+                    class="icon ni ni-arrow-left"></em></a>
+              </div> -->
+            </div>
+          </div><!-- .nk-block-head -->
+         <div class="nk-block">
+                <div class="row gy-5">
+                  <div class="col-lg-6">
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Application Info</h5>
+                        <p>Submission date, approve date, status etc.</p>
+                      </div>
+                    </div><!-- .nk-block-head -->
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Have you received scholarship before ?</div>
+                            <div class="data-value">{{sch_data.is_application_received_previously}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Are you a "specially abled" candidate ?</div>
+                            <div class="data-value">{{sch_data.is_disablity_candidate}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Have you received this Loan before?</div>
+                            <div class="data-value">{{ loan_data.is_loan_receviced }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">How much loan do you want </div>
+                            <div class="data-value">{{ loan_data.loan_amount_willing }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Status</div>
+                            <div class="data-value"><span class="badge badge-dim badge-sm bg-outline-warning">On Hold</span></div>
+                          </div>
+                        </li> 
+                      </ul>
+                    </div><!-- .card -->
+
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Educational Details</h5>
+                        <p>Current Education, Percentage, College Name etc.</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Passed Collge Name</div>
+                            <div class="data-value">{{ sch_data.passed_college_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Passed Education Type</div>
+                            <div class="data-value">{{ sch_data.passed_education}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Passed Education Percentage</div>
+                            <div class="data-value">{{ sch_data.passed_education_percentage}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Current Education for Scholarship you are applying</div>
+                            <div class="data-value">{{ sch_data.current_education}}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Acedemic Details</h5>
+                        <p>Expenditure for daily college, Cost of books, uniform etc, annual tution fee etc</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">How far is your college? </div>
+                            <div class="data-value">{{ sch_data.college_distance}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">How do you commute to college daily?</div>
+                            <div class="data-value">{{ sch_data.college_travel_vehical}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Daily expenditure on commuting to college and back home?</div>
+                            <div class="data-value">{{sch_data.college_expenditure_tohome}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Annual Tution Fee</div>
+                            <div class="data-value">{{ sch_data.tuition_fee}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Cost books and notebooks</div>
+                            <div class="data-value">{{ sch_data.cost_books}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Cost of uniform</div>
+                            <div class="data-value">{{ sch_data.cost_uniform }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Estimate cost of commuting to college for this acedemic year</div>
+                            <div class="data-value">{{ sch_data.academic_year_cost_travel}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Hostel fee</div>
+                            <div class="data-value">{{ sch_data.hostel_fees}}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Guarantor Details</h5>
+                        <p>Guarantor details like name, number etc</p>
+                      </div>
+                    </div><!-- .nk-block-head -->
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item" style="border:none;">
+                          <div class="data-col">
+                            <div class="fw-bold">First Guarantor Details</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Name of Guarantor</div>
+                            <div class="data-value">{{ guarantor_one.guarantour_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Address of Guarantor</div>
+                            <div class="data-value">{{ guarantor_one.guarantour_address}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Mobile Number of Guarantor</div>
+                            <div class="data-value">{{ guarantor_one.guarantour_mobile}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Guarantor Certificate</div>
+                            <div class="data-value">{% if guarantor_one.guarantour_certificate %}
+                              <a href="{{guarantor_one.guarantour_certificate.url}}" target="_blank">click me</a>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </li>
+
+
+                        <li class="data-item" style="border:none;">
+                          <div class="data-col">
+                            <div class="fw-bold">Second Guarantor Details</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Name of Guarantor</div>
+                            <div class="data-value">{{ guarantor_two.guarantour_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Address of Guarantor</div>
+                            <div class="data-value">{{ guarantor_two.guarantour_address}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Mobile Number of Guarantor</div>
+                            <div class="data-value">{{ guarantor_two.guarantour_mobile}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Guarantor Certificate</div>
+                            <div class="data-value">
+                              {% if guarantor_two.guarantour_certificate %}
+                              <a href="{{guarantor_two.guarantour_certificate.url}}" target="_blank">click me</a>
+                              {% endif %}
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div><!-- .card -->
+
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Other Details</h5>
+                        <p>Sports, Extra curricular activities etc</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Is your birth place different than the address you have given above?</div>
+                            <div class="data-value">{{ sch_data.birth_place_different }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Birth Place</div>
+                            <div class="data-value">{{ sch_data.birth_place }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Do you have certificates in sports, elocution etc. in last 3 years (only during year 2020 to 2023).</div>
+                            <div class="data-value">{{ sch_data.is_certificate_sports }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Does your mother/father have died on field serving the nation ?</div>
+                            <div class="data-value">{{ sch_data.is_alive }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Are you a district level player in the recognised games ?</div>
+                            <div class="data-value">{{ sch_data.is_district_level_player}}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div><!-- .col -->
+                  <div class="col-lg-6">
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Applicant Information</h5>
+                        <p>Basic info, like name, phone, address, country etc.</p>
+                      </div>
+                    </div>
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">First Name</div>
+                            <div class="data-value">{{ sch_data.first_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Middle Name</div>
+                            <div class="data-value">{{ sch_data.middle_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Last Name</div>
+                            <div class="data-value">{{ sch_data.last_name}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Email Address</div>
+                            <div class="data-value">{{ sch_data.email}}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Mobile Number</div>
+                            <div class="data-value">{{ sch_data.mobile }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Full Address</div>
+                            <div class="data-value">{{ sch_data.address }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Pincode</div>
+                            <div class="data-value">{{ sch_data.pincode }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">District</div>
+                            <div class="data-value">{{ sch_data.district }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Taluka</div>
+                            <div class="data-value">{{ sch_data.taluka }}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Mulgaon</div>
+                            <div class="data-value">{{ sch_data.mulgaon }}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                  <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Family Details</h5>
+                    <p>Family Income , Relation with them</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Family Relation</div>
+                        <div class="data-value">{{ sch_data.family_details}}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Family Income</div>
+                        <div class="data-value">{{ sch_data.family_income}}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div><!-- .card -->
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Bank Details</h5>
+                    <p>Bank details like account holder name , account number etc</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Name of Bank</div>
+                        <div class="data-value">{{ sch_data.bank_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Account Number</div>
+                        <div class="data-value">{{ sch_data.account_no }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Account Holder Name</div>
+                        <div class="data-value">{{ sch_data.account_holder }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Branch Name</div>
+                        <div class="data-value">{{ sch_data.branch_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">IFSC code</div>
+                        <div class="data-value">{{ sch_data.ifsc_code }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div><!-- .card -->
+                    <div class="nk-block-head">
+                      <div class="nk-block-head-content">
+                        <h5 class="nk-block-title title">Uploaded Documents</h5>
+                        <p>Here is user uploaded documents.</p>
+                      </div>
+                    </div><!-- .nk-block-head -->
+                    <div class="card">
+                      <ul class="data-list is-compact">
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Aadhar card</div>
+                            <div class="data-value">{% if sch_data.aadhar_card %}
+                            <a href="{{sch_data.aadhar_card.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Income Certificate</div>
+                            <div class="data-value">{% if sch_data.income_certificate %}
+                            <a href="{{sch_data.income_certificate.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Address Proof</div>
+                            <div class="data-value">{% if sch_data.address_proof %}
+                            <a href="{{sch_data.address_proof.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Bonafide Certificate</div>
+                            <div class="data-value">{% if sch_data.bonafide_certificate %}
+                            <a href="{{sch_data.bonafide_certificate.url}}" 
+                            target="_blank">click me</a>
+                          {% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Ration Card</div>
+                            <div class="data-value">{% if sch_data.ration_card %}
+                            <a href="{{sch_data.ration_card.url}}" 
+                            target="_blank">click me</a> {% endif %}</div></div>
+                          
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Sports Certificate</div>
+                            <div class="data-value">{% if sch_data.upload_certificate_sports %}
+                            <a href="{{sch_data.upload_certificate_sports.url}}" target="_blank">
+                            click me</a>{% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Self Declarartion Certificate</div>
+                            <div class="data-value">{% if loan_data.self_declaration_form %}
+                            <a href="{{loan_data.self_declaration_form.url}}" target="_blank">
+                            click me</a>{% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">"Specially abled" candidate Certificate</div>
+                            <div class="data-value">{% if sch_data.disablity_certificate %}
+                            <a href="{{sch_data.disablity_certificate.url}}" target="_blank">
+                            click me</a>{% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">Serviceman Certificate</div>
+                            <div class="data-value">{% if sch_data.upload_certificate_isalive %}
+                            <a href="{{sch_data.upload_certificate_isalive.url}}" target="_blank">
+                            click me</a>{% endif %}</div>
+                          </div>
+                        </li>
+                        <li class="data-item">
+                          <div class="data-col">
+                            <div class="data-label">District Level Certificate</div>
+                            <div class="data-value">{% if sch_data.upload_certificate_district_level %}
+                            <a href="{{sch_data.upload_certificate_district_level.url}}" target="_blank">click me</a>{% endif %}</div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div><!-- .card -->
+                  </div><!-- .col -->
+                </div><!-- .row -->
+              </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+<!-- SCHOLARSHIP APPLICATION DETAILS -->
+
+{% elif is_applied == True and is_loan_applicant == False %}
+
+<div class="nk-content nk-content-fluid">
+      <div class="container-xl wide-xl">
+        <div class="nk-content-body">
+          <div class="nk-block-head nk-block-head-sm">
+            <div class="nk-block-between g-3">
+              <div class="nk-block-head-content">
+                <h3 class="nk-block-title page-title">Scholarship Form Details</h3>
+                <!-- <div class="nk-block-des text-soft">
+                  <ul class="list-inline">
+                    <li>Submited At: <span class="text-base">18 Dec, 2019 01:02 PM</span></li>
+                  </ul>
+                </div> -->
+              </div>
+             <!--  <div class="nk-block-head-content">
+                <a href="html/kyc-list-regular.html"
+                  class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em
+                    class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                <a href="html/kyc-list-regular.html"
+                  class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em
+                    class="icon ni ni-arrow-left"></em></a>
+              </div> -->
+            </div>
+          </div><!-- .nk-block-head -->
+          <div class="nk-block">
+            <div class="row gy-5">
+              <div class="col-lg-6">
+                
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Application Info</h5>
+                    <p>Submission date, approve date, status etc.</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Have you received scholarship before ?</div>
+                        <div class="data-value">{{ sch_data.is_application_received_previously }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Are you a "specially abled" candidate ?</div>
+                        <div class="data-value">{{ sch_data.is_disablity_candidate }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Status</div>
+                        <div class="data-value"><span class="badge badge-dim badge-sm bg-outline-warning">On Hold</span></div>
+                      </div>
+                    </li> 
+                  </ul>
+                </div><!-- .card -->
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Educational Details</h5>
+                    <p>Current Education, Percentage, College Name etc.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Passed Collge Name</div>
+                        <div class="data-value">{{ sch_data.passed_college_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Passed Education Type</div>
+                        <div class="data-value">{{ sch_data.passed_education }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Passed Education Percentage</div>
+                        <div class="data-value">{{ sch_data.passed_education_percentage }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Current Education for Scholarship you are applying</div>
+                        <div class="data-value">{{ sch_data.current_education }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Acedemic Details</h5>
+                    <p>Expenditure for daily college , Cost of books, uniform etc, annual tution fee etc</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">How far is your college? </div>
+                        <div class="data-value">{{ sch_data.college_distance }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">How do you commute to college daily?</div>
+                        <div class="data-value">{{ sch_data.college_travel_vehical }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Daily expenditure on commuting to college and back home?</div>
+                        <div class="data-value">{{ sch_data.college_expenditure_tohome }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Annual Tution Fee</div>
+                        <div class="data-value">{{ sch_data.tuition_fee }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Cost books and notebooks</div>
+                        <div class="data-value">{{ sch_data.cost_books }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Cost of uniform</div>
+                        <div class="data-value">{{ sch_data.cost_uniform }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Estimate cost of commuting to college for this acedemic year</div>
+                        <div class="data-value">{{ sch_data.academic_year_cost_travel }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Hostel fee</div>
+                        <div class="data-value">{{ sch_data.hostel_fees }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Other Details</h5>
+                    <p>Sports, Extra curricular activities etc</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Is your birth place different than the address you have given above?</div>
+                        <div class="data-value">{{ sch_data.birth_place_different }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Birth Place</div>
+                        <div class="data-value">{{ sch_data.birth_place }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Do you have certificates in sports, elocution etc. in last 3 years (only during year 2020 to 2023).</div>
+                        <div class="data-value">{{ sch_data.is_certificate_sports }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Does your mother/father have died on field serving the nation ?</div>
+                        <div class="data-value">{{ sch_data.is_alive }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Are you a district level player in the recognised games ?</div>
+                        <div class="data-value">{{ sch_data.is_district_level_player }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+              </div><!-- .col -->
+              <div class="col-lg-6">
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Applicant Information</h5>
+                    <p>Basic info, like name, phone, address, country etc.</p>
+                  </div>
+                </div>
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">First Name</div>
+                        <div class="data-value">{{ sch_data.first_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Middle Name</div>
+                        <div class="data-value">{{ sch_data.middle_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Last Name</div>
+                        <div class="data-value">{{ sch_data.last_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Email Address</div>
+                        <div class="data-value">{{ sch_data.email }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Mobile Number</div>
+                        <div class="data-value">{{ sch_data.mobile }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Full Address</div>
+                        <div class="data-value">{{ sch_data.address }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Pincode</div>
+                        <div class="data-value">{{ sch_data.pincode }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">District</div>
+                        <div class="data-value">{{ sch_data.district }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Taluka</div>
+                        <div class="data-value">{{ sch_data.taluka }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Mulgaon</div>
+                        <div class="data-value">{{ sch_data.mulgaon }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Family Details</h5>
+                    <p>Family Income , Relation with them</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Family Relation</div>
+                        <div class="data-value">{{ sch_data.family_details}}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Family Income</div>
+                        <div class="data-value">{{ sch_data.family_income}}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div><!-- .card -->
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Bank Details</h5>
+                    <p>Bank details like account holder name , account number etc</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Name of Bank</div>
+                        <div class="data-value">{{ sch_data.bank_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Account Number</div>
+                        <div class="data-value">{{ sch_data.account_no }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Account Holder Name</div>
+                        <div class="data-value">{{ sch_data.account_holder }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Branch Name</div>
+                        <div class="data-value">{{ sch_data.branch_name }}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">IFSC code</div>
+                        <div class="data-value">{{ sch_data.ifsc_code }}</div>
+                      </div>
+                    </li>
+                  </ul>
+                </div><!-- .card -->
+
+                <div class="nk-block-head">
+                  <div class="nk-block-head-content">
+                    <h5 class="nk-block-title title">Uploaded Documents</h5>
+                    <p>Here is user uploaded documents.</p>
+                  </div>
+                </div><!-- .nk-block-head -->
+                <div class="card">
+                  <ul class="data-list is-compact">
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Aadhar card</div>
+                        <div class="data-value">{% if sch_data.aadhar_card %}
+                            <a href="{{sch_data.aadhar_card.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Income Certificate</div>
+                        <div class="data-value">{% if sch_data.income_certificate %}
+                            <a href="{{sch_data.income_certificate.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Address Proof</div>
+                        <div class="data-value">{% if sch_data.address_proof %}
+                            <a href="{{sch_data.address_proof.url}}" target="_blank">click me</a>
+                          {% endif %}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Bonafide Certificate</div>
+                        <div class="data-value">{% if sch_data.bonafide_certificate %}
+                            <a href="{{sch_data.bonafide_certificate.url}}" 
+                            target="_blank">click me</a>
+                          {% endif %}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Ration Card</div>
+                        <div class="data-value">{% if sch_data.ration_card %}
+                            <a href="{{sch_data.ration_card.url}}" 
+                            target="_blank">click me</a> {% endif %}</div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Sports Certificate</div>
+                        <div class="data-value">
+                          {% if sch_data.upload_certificate_sports %}
+                            <a href="{{sch_data.upload_certificate_sports.url}}" target="_blank">click me</a>
+                          {% endif %}
+                      </div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">Serviceman Certificate</div>
+                        <div class="data-value">
+                          {% if sch_data.upload_certificate_isalive %}
+                            <a href="{{sch_data.upload_certificate_isalive.url}}" target="_blank">click me</a>
+                          {% endif %}
+                      </div>
+                      </div>
+                    </li>
+                    <li class="data-item">
+                      <div class="data-col">
+                        <div class="data-label">District Level Certificate</div>
+                        <div class="data-value">{% if sch_data.upload_certificate_district_level %}
+                        <a href="{{sch_data.upload_certificate_district_level.url}}" target="_blank">click me</a>
+                        {% endif %}
+                      </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div><!-- .card -->
+              </div><!-- .col -->
+            </div><!-- .row -->
+          </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+
+{% else %}
+<div class="nk-content nk-content-fluid">
+  <div class="container-xl wide-xl">
+    <div class="nk-content-body">
+      <div class="nk-block">
+        <div class="row gy-5">
+          <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="nk-block-head">
+              <div class="nk-block-head-content">
+                <h5 class="nk-block-title title">Applicant Information</h5>
+                <p>Basic info like name, mobile number, status etc.</p>
+              </div>
+            </div>
+            <div class="card">
+              <ul class="data-list is-compact">
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label">First Name</div>
+                    <div class="data-value">{{ user_data.user.first_name }}</div>
+                  </div>
+                </li>
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label">Last Name</div>
+                    <div class="data-value">{{ user_data.user.last_name }}</div>
+                  </div>
+                </li>
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label">Email Address</div>
+                    <div class="data-value">{{ user_data.user.email }}</div>
+                  </div>
+                </li>
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label">Mobile Number</div>
+                    <div class="data-value">{{ user_data.mobile }}</div>
+                  </div>
+                </li>
+                {% for role in roles %}
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label">Role</div>
+                    <div class="data-value">{{ role.name }}</div>
+                  </div>
+                </li>
+                {% endfor %}
+                {% if status != "Admin" %}
+                <li class="data-item">
+                  <div class="data-col">
+                    <div class="data-label fw-bold">Status</div>
+                    <div class="data-value fw-bold">{{status}}</div>
+                  </div>
+                </li>
+                {% endif %}
+                
+                </ul>
+                </div><!-- .card -->
+              </div><!-- .col -->
+            </div><!-- .row -->
+          </div><!-- .nk-block -->
+        </div>
+    </div>
+</div>
+{% endif %}
+
+{% endblock content %}

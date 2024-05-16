@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+         <div class="nk-content ">
+            <div class="nk-block nk-block-middle wide-xs mx-auto">
+                <div class="nk-block-content nk-error-ld text-center">
+                    <h3 class="nk-error-title">Your form has Saved Successfully! Visit Again to Submit it.</h3>
+                    <a href="{% url 'vachanalayform' %}" id="scholarship_form_save_id" class="btn btn-lg btn-primary mt-2">View your Application</a>
+                </div> 
+            </div><!-- .nk-block -->
+{% endblock content %}

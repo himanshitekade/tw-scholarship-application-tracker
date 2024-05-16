@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+<div class="nk-content ">
+	<div class="container-fluid">
+		<div class="nk-content-inner">
+			<div class="nk-content-body">
+				<div class="nk-block-head nk-block-head-sm">
+					<div class="nk-block-between">
+						<div class="nk-block-head-content">
+							<h3 class="nk-block-title page-title">Add Details</h3>
+							<div class="nk-block-des text-soft">
+
+							</div>
+						</div><!-- .nk-block-head-content -->
+						<div class="nk-block-head-content">
+							<div class="toggle-wrap nk-block-tools-toggle">
+							</div><!-- .toggle-wrap -->
+						</div><!-- .nk-block-head-content -->
+					</div><!-- .nk-block-between -->
+				</div><!-- .nk-block-head -->
+				<form action="{% url redirect %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<div class="nk-block">
+						<div class="card card-bordered card-stretch">
+							<div class="card-inner-group">
+								<div class="card-inner position-relative card-tools-toggle">
+									<div class="row gy-4">
+										<input type="text" hidden name="_put">
+										<input type="text" hidden name="id" value="{{data.id}}">
+
+
+
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+												<label for="category_name" class="form-label"> Category name </label>
+
+												<span style="color:red;">*</span>
+
+												<div class="form-control-wrap">
+													<input type="text" class="form-control" id="category_name"
+														name="category_name" value="{{data.category_name}}"
+														placeholder="Enter your category name" maxlength="500" required>
+												</div>
+											</div>
+										</div><!--col-->
+										<div class="col-sm-6" hidden>
+											<div class="form-control-wrap">
+											  	<label class="form-label" for="student_category_session">Select Session</label>
+											  	<span style="color:red;">*</span>
+											  	<select class="form-select field" id="student_category_session" name="student_category_session">
+													<option value="1" selected>2023</option> 
+												</select>
+											</div>
+										</div>
+
+										<!-- Changes Start -->
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+											  <label class="form-label" for="application_type">Application type</label>
+											  <span style="color:red;">*</span>
+											  <div class="form-control-wrap"> 
+												<select class="form-select field" id="application_type" name="application_type" required>
+													{% for application in application_type %}
+														<!-- {% if data.application_type == application.name %}
+															<option value="{{application.name}}" selected>{{application.name}}</option>
+														{% else %}
+														<option value="{{application.name}}">{{application.name}}</option>
+														{% endif %} -->
+
+														<!-- test start -->
+														<option {% if data.application_type == application.name %} selected {% endif %} value="{{application.name}}">{{application.name}}</option>
+														<!-- test end -->
+
+
+
+													{% endfor %}
+												</select>
+											  </div>
+											</div>
+										</div>
+										<!-- Changes end -->
+	
+
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+												<label for="no_of_candidates" class="form-label"> No. of candidates
+												</label>
+
+												<span style="color:red;">*</span>
+
+												<div class="form-control-wrap">
+													<input type="number" class="form-control" id="no_of_candidates"
+														name="no_of_candidates" value="{{data.no_of_candidates}}"
+														placeholder="Enter no of candidates " required onkeyup="TotalAmount()">
+												</div>
+											</div>
+										</div><!--col-->
+
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+												<label for="amt_for_candidates" class="form-label"> Amount for
+													candidates </label>
+
+												<span style="color:red;">*</span>
+
+												<div class="form-control-wrap">
+													<input type="number" class="form-control" id="amt_for_candidates"
+														name="amt_for_candidates" value="{{data.amt_for_candidates}}"
+														placeholder="Enter amount for candidates" required onkeyup="TotalAmount()">
+												</div>
+											</div>
+										</div><!--col-->
+
+										<!-- Changes Start -->
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+											  <label class="form-label" for="courses_link">Courses</label>
+											  <span style="color:red;">*</span>
+											  <div class="form-control-wrap"> 
+												<select class="form-select field" id="courses_link" name="courses_link" value="" required multiple>
+													{% for course in courses %}
+														<option {% for i in selected_courses_link_list %} {% if i == course.name %} selected {% endif %} {% endfor %}value="{{course.name}}" >{{course.name}}</option>																												
+													{% endfor %}
+												</select>
+											  </div>
+											</div>
+										</div>
+										<!-- Changes end -->
+
+										<div class="col-xxl-3 col-md-6">
+											<div class="form-group">
+												<label for="total_amt" class="form-label"> Total Amount </label>
+
+												<span style="color:red;">*</span>
+
+												<div class="form-control-wrap">
+													<input type="number" class="form-control" id="total_amt"
+														name="total_amt" value="{{data.total_amt}}"
+														placeholder="Enter total amount" required>
+												</div>
+											</div>
+										</div><!--col-->
+
+										<div class="col-12">
+											<div class="form-group">
+												<div class="form-group">
+													<button type="submit" class="btn btn-success" name="action"
+														value="submit">Submit</button>
+												</div>
+
+											</div><!--col-->
+
+
+										</div><!--row-->
+									</div><!-- .card-inner -->
+								</div><!-- .card-inner-group -->
+							</div><!-- .card -->
+						</div><!-- .nk-block -->
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	function TotalAmount(){
+		var no_of_candidates = document.getElementById("no_of_candidates").value;
+		var amt_for_candidates = document.getElementById("amt_for_candidates").value;
+		var total_amt = document.getElementById('total_amt');
+		total_amt.value = no_of_candidates * amt_for_candidates
+		console.log(total_amt)
+
+	}
+</script>
+
+{% endblock content %}
+
+{% block script %}
+<script src="{% static 'assets/js/checkboxValidation.js' %}"></script>
+{% endblock script %}

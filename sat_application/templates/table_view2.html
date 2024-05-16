@@ -1,0 +1,220 @@
+{% load static %}
+{% load custom_tags %}
+
+{% if page_obj|length >= 1 %}
+    <div id="status" style="display: none;">{{ status }}</div>
+    <div id="msg" style="display: none;">{{ msg }}</div>
+
+    <link rel="stylesheet" href="{% static 'assets/css/dashlite.css' %}">
+    <link id="skin-default" rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+
+    <h4 class="nk-block-title mx-2 mt-1 fw-bold" id="get_form_name">{{ form_name }}</h4> <hr>
+    
+    <div class="row my-1">
+        <div class="row m-1">
+            <div class="col-sm-2 my-1">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body"><h6 align="center">Total</h6> <h5 align="center">{{no_of_student}}/{{ total_no_of_student }}</h5></div>
+                </div>
+            </div>
+            {% for key,values in display_count.items %}
+                <div class="col-sm-2 my-1">
+                    <div class="card text-white {% cycle 'bg-warning' 'bg-success' 'bg-danger' 'bg-info' %}">
+                        <div class="card-body"><h6 align="center">{{ key }}</h6> <h5 align="center">{{ values }}</h5></div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+    <div class="card-inner">
+        <div class="table-responsive">
+            {% if db_table_name in privileges %}
+            <table class="datatable-init table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Current course of education</th>
+                        <th>specially abled</th>
+                        <th>Under Poverty Line</th>
+                        <th>Does your mother/father have died on field serving the nation</th>
+                        <th>Have you received this scholarship before </th>
+                        <th>Passed percentage</th>
+                        <th>Action</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in page_obj %}
+                    
+                    <tr>
+                        {% if i.first_name %}
+                            <td class="name-column" data-bs-toggle="modal" data-bs-target="#myModal" onclick="GetModalData('{{i.first_name}} {{i.last_name}}','{{i.email}}','{{i.mobile}}','{{i.address}}')">{{ i.first_name }} {{ i.last_name}}</td>
+
+                        {% else %}
+                            <td class="name-column" data-bs-toggle="modal" data-bs-target="#myModal" onclick="GetModalData('{{ i.name }}','{{i.email}}','{{i.mobile}}','{{i.address}}')">{{ i.name }}</td>
+                        {% endif %}
+
+                        <td> {{ i.text_field_2 }}</td>
+                        <td>{{ i.current_education }}</td>
+                        <td>
+                            {% if i.is_disablity_candidate %} Yes {% else %} No {% endif%}
+                        </td>
+                        <td>
+                            {% if i.is_poverty_line %} Yes {% else %} No {% endif%}
+                        </td>
+                        <td>
+                            {% if i.is_alive %} Yes {% else %} No {% endif%}
+                        </td>
+                        <td>{% if i.is_application_received_previously %} Yes {% else %} No {% endif%}
+                        </td> 
+                        <td>{{ i.passed_education_percentage }}</td>
+
+                        <td>
+                            <div class="nk-tb-col nk-tb-col-action">
+                                <div class="dropdown">
+                                    <a id="set_table_dropdown_{{forloop.counter}}" onclick="setDropdown(true,'{{forloop.counter}}')" class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em>
+                                    </a>
+                                    <div id="set_dropdown_{{forloop.counter}}" class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                        <ul class="link-list-plain">
+                                            {% for status in form_status %}
+                                                <li>
+                                                    <input type="text" hidden name="id" value="{{i.id}}">
+                                                    <a class="btn" name="action" id="form_status_button" onclick="StatusChange('{{i.id}}','{{status.name}}')" value="{{status.name}}">
+                                                        {{status.name}}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                        </td>
+                        <td>
+                            <a href="{% url 'view_application' %}?table_name={{ db_table_name }}&id={{i.id}}&form_name={{form_name}}" target="_blank">
+                                <em class="icon ni ni-eye-fill fw-bold"></em>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                </tbody>
+                
+            </table>
+            {% else %}
+            <table class="datatable-init table" id="myTable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>District</th>
+                        <th>Taluka</th>
+                        <th>Have you received aid before</th>
+                        <th>Total expenditure of during last</th>
+                        <th>Action</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                    {% for i in page_obj %}
+                    <tr>
+                        
+                        {% if i.first_name %}
+                            <td class="name-column" data-bs-toggle="modal" data-bs-target="#myModal" onclick="GetModalData('{{i.first_name}} {{i.last_name}}','{{i.email}}','{{i.mobile}}','{{i.address}}')">{{ i.first_name }} {{ i.last_name}}</td>
+                        {% else %}
+                            <td class="name-column" data-bs-toggle="modal" data-bs-target="#myModal" onclick="GetModalData('{{ i.name }}','{{i.email}}','{{i.mobile}}','{{i.address}}')">{{ i.name }}</td>
+                        {% endif %}
+                        <td>{{ i.text_field_2}}</td>
+                        <td>
+                            {% for dist in districts %}
+                                {% if dist.id == i.district|add:"0" %} {{ dist.name }} {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {{ i.taluka }}
+                        </td>
+                        <td>
+                            {% if i.is_scholarship_recevied %} Yes {% else %} No {% endif %}
+                        </td>
+                        <td>
+                            {{ i.current_total_expenditure }}
+                        </td>
+
+                        <td>
+                            <div class="nk-tb-col nk-tb-col-action">
+                                <div class="dropdown">
+                                    <a id="set_table_dropdown_{{forloop.counter}}" onclick="setDropdown(true,'{{forloop.counter}}')" class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em>
+                                    </a>
+                                    <div id="set_dropdown_{{forloop.counter}}" class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                        <ul class="link-list-plain">
+                                            {% for status in form_status %}
+                                            <li>
+                                                <input type="text" hidden name="id" value="{{i.id}}">
+                                                <a class="btn" name="action" id="form_status_button" onclick="StatusChange('{{i.id}}','{{status.name}}')" value="{{status.name}}">
+                                                    {{status.name}}
+                                                </a>
+                                            </li>
+                                            {% endfor %}
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                           
+                        </td>
+                        <td>
+                            <a href="{% url 'view_application' %}?table_name={{ db_table_name }}&id={{i.id}}&form_name={{form_name}}" target="_blank">
+                                <em class="icon ni ni-eye-fill fw-bold"></em>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    
+                    
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+
+    <style>
+        .dropdown_position {
+            position: absolute;
+            inset: auto 0px 0px auto;
+            margin: 0px;
+            transform: translate(0px, -38px);
+        }
+    </style>
+    
+    <script>
+        var myVariable = false;
+        console.log(myVariable)
+        function setDropdown(value, count) {
+            if (value === true) {
+                myVariable = true;
+                console.log(myVariable)
+                id_1 = "set_table_dropdown_"+count;
+                id_2 = "set_dropdown_"+count;
+                console.log(id_1, id_2);
+                document.getElementById(id_1).classList.add("show");
+                document.getElementById(id_2).classList.add("show");
+                document.getElementById(id_2).classList.add("dropdown_position");
+            }
+        }
+    </script>
+   
+    <script src="{% static 'assets/js/bundle.js' %}"></script>
+    <script src="{% static 'assets/js/scripts.js' %}"></script>
+    <script src="{% static 'assets/js/libs/datatable-btns.js' %}"></script>
+
+{% else %}
+<h3 align="center">Data Not Available</h3>
+{% endif %}
+
+

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+     <div class="nk-content ">
+        <div class="nk-block nk-block-middle wide-xs mx-auto">
+            <div class="nk-block-content nk-error-ld text-center">
+                <h3 class="nk-error-title">You have already submitted the Anganwadi Form.</h3>
+                <form action="{% url 'applicantprofile' %}" method="get" >
+                        <button class="btn btn-lg-block btn-primary  mt-2" id="submit" name="action" value="anaganwadi">View Profile</button>
+                    </form>
+            </div>
+        </div><!-- .nk-block -->
+{% endblock content %} 

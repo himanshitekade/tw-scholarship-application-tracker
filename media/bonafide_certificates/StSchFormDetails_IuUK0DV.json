@@ -1,0 +1,530 @@
+{
+	"css": "base1.css",
+	"legend": "Crm_Forms",
+	"HTML_fields": [
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "First name",
+			"id": "first_name",
+			"name": "first_name",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your first name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Middle name",
+			"id": "middle_name",
+			"name": "middle_name",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your middle name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Last name",
+			"id": "last_name",
+			"name": "last_name",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your last name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "First name",
+			"id": "first_name_marathi",
+			"name": "first_name_marathi",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your first name "
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Middle name",
+			"id": "middle_name_marathi",
+			"name": "middle_name_marathi",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your middle name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Last name",
+			"id": "last_name_marathi",
+			"name": "last_name_marathi",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter your last name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Address",
+			"id": "address",
+			"name": "address",
+			"maxlength": "500",
+			"required": "true",
+			"placeholder": "Enter your address"
+		},
+		{
+			"tag": "input",
+			"type": "number",
+			"class": "form-control",
+			"label": "Pincode",
+			"id": "pincode",
+			"name": "pincode",
+			"required": "true",
+			"placeholder": "Enter pincode",
+			"max": "6"
+		},
+		{
+			"tag": "input",
+			"type": "email",
+			"class": "form-control",
+			"label": "Email",
+			"id": "email",
+			"name": "email",
+			"maxlength": "50",
+			"required": "true",
+			"placeholder": "Enter your email address"
+		},
+		{
+			"tag": "input",
+			"type": "tel",
+			"class": "form-control",
+			"label": "Mobile",
+			"id": "mobile",
+			"name": "mobile",
+			"maxlength": "13",
+			"required": "true",
+			"placeholder": "Enter your mobile number"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "District",
+			"id": "district",
+			"name": "district",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter district"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Taluka",
+			"id": "taluka",
+			"name": "taluka",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter taluka"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Mul Gaon",
+			"id": "mulgaon",
+			"name": "mulgaon",
+			"maxlength": "100",
+			"required": "100",
+			"placeholder": "Enter mulgaon"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Are you a \"specially abled\" candidate ?",
+			"id": "is_disablity_candidate",
+			"name": "is_disablity_candidate",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": ""
+		},
+		{
+			"tag": "input",
+			"type": "file",
+			"class": "form-control",
+			"label": "Upload certificate from doctor. The certificate must have name and contact number of the certifying doctor clearly written.",
+			"id": "disablity_certificate",
+			"name": "disablity_certificate",
+			"required": "true",
+			"accept": ".pdf"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Passed College Name",
+			"id": "passed_college_name",
+			"name": "passed_college_name",
+			"maxlength": "500",
+			"required": "true",
+			"placeholder": "Enter your college name"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Passed Education",
+			"id": "passed_education",
+			"name": "passed_education",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter education"
+		},
+		{
+			"tag": "input",
+			"type": "number",
+			"class": "form-control",
+			"label": "Passed Education Percentage",
+			"id": "passed_education_percentage",
+			"name": "passed_education_percentage",
+			"required": "true",
+			"placeholder": "Enter percentage"
+		},
+		{
+			"tag": "input",
+			"type": "file",
+			"class": "form-control",
+			"label": "Passed Education Marksheet",
+			"id": "passed_education_marksheet",
+			"name": "passed_education_marksheet",
+			"accept": ".pdf",
+			"required": "true"
+		},
+		{
+			"tag": "input",
+			"type": "text",
+			"class": "form-control",
+			"label": "Current education for Scholarship",
+			"id": "current_education",
+			"name": "current_education",
+			"maxlength": "100",
+			"required": "true",
+			"placeholder": "Enter current education"
+		},
+		{
+			"tag": "select",
+			"type": "NA",
+			"class": "form-control",
+			"label": "Have you received this scholarship before ?",
+			"id": "is_application_received_previously",
+			"name": "is_application_received_previously",
+			"options": {
+				"Yes": "Yes",
+				"No": "No"
+			}
+		},
+		{
+			"tag": "button", 
+			"type": "submit",
+			"id":"submit",
+			"class": "btn btn-success", 
+			"label": "Submit", 
+			"value": "submit",
+			"name": "submit"
+		}
+	],
+	"HTML_table": {
+		"headers": [
+			"First name",
+			"Middle name",
+			"Last name",
+			"First name",
+			"Middle name",
+			"Last name",
+			"Address",
+			"Pincode",
+			"Email",
+			"Mobile",
+			"District",
+			"Taluka",
+			"Mul Gaon",
+			"Are you a \"specially abled\" candidate ?",
+			"Upload certificate from doctor. The certificate must have name and contact number of the certifying doctor clearly written.",
+			"Passed College Name",
+			"Passed Education",
+			"Passed Education Percentage",
+			"Passed Education Marksheet",
+			"Current education for Scholarship",
+			"Have you received this scholarship before ?"
+		],
+		"values": [
+			{
+				"name": "first_name",
+				"type": "text"
+			},
+			{
+				"name": "middle_name",
+				"type": "text"
+			},
+			{
+				"name": "last_name",
+				"type": "text"
+			},
+			{
+				"name": "middle_name_marathi",
+				"type": "text"
+			},
+			{
+				"name": "first_name_marathi",
+				"type": "text"
+			},
+			{
+				"name": "last_name_marathi",
+				"type": "text"
+			},
+			{
+				"name": "address",
+				"type": "text"
+			},
+			{
+				"name": "pincode",
+				"type": "text"
+			},
+			{
+				"name": "email",
+				"type": "text"
+			},
+			{
+				"name": "mobile",
+				"type": "text"
+			},
+			{
+				"name": "district",
+				"type": "text"
+			},
+			{
+				"name": "taluka",
+				"type": "text"
+			},
+			{
+				"name": "mulgaon",
+				"type": "text"
+			},
+			{
+				"name": "is_disablity_candidate",
+				"type": "text"
+			},
+			{
+				"name": "disablity_certificate",
+				"type": "file"
+			},
+			{
+				"name": "passed_college_name",
+				"type": "text"
+			},
+			{
+				"name": "passed_education",
+				"type": "text"
+			},
+			{
+				"name": "passed_education_percentage",
+				"type": "text"
+			},
+			{
+				"name": "passed_education_marksheet",
+				"type": "text"
+			},
+			{
+				"name": "current_education",
+				"type": "text"
+			},
+			{
+				"name": "is_application_received_previously",
+				"type": "text"
+			}
+		],
+		"searchable_fields": [
+			"first_name",
+			"middle_name",
+			"last_name",
+			"first_name_marathi",
+			"middle_name_marathi",
+			"first_name_marathi",
+			"last_name_marathi",
+			"address",
+			"pincode",
+			"email",
+			"mobile",
+			"district",
+			"taluka",
+			"mulgaon",
+			"is_disablity_candidate",
+			"disablity_certificate",
+			"passed_college_name",
+			"passed_education",
+			"passed_education_percentage",
+			"passed_education_marksheet",
+			"current_education",
+			"is_application_received_previously"
+		]
+	},
+	"Model_fields": {
+		"tableName": "StSchFormDetails ",
+		"tableFields": [
+			{
+				"type": "CharField",
+				"name": "first_name",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "middle_name",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "last_name",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "first_name_marathi",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "middle_name_marathi",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "last_name_marathi",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "address",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "500"
+			},
+			{
+				"type": "IntegerField",
+				"name": "pincode",
+				"isBlank": "False",
+				"isNull": "False",
+				"default": "0"
+			},
+			{
+				"type": "EmailField",
+				"name": "email",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "50"
+			},
+			{
+				"type": "PhoneNumberField",
+				"name": "mobile",
+				"isBlank": "False",
+				"isNull": "False"
+			},
+			{
+				"type": "CharField",
+				"name": "district",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "taluka",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "mulgaon",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "is_disablity_candidate",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "FileField",
+				"name": "disablity_certificate",
+				"isBlank": "False",
+				"isNull": "False",
+				"filePath": ""
+			},
+			{
+				"type": "CharField",
+				"name": "passed_college_name",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "500"
+			},
+			{
+				"type": "CharField",
+				"name": "passed_education",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "IntegerField",
+				"name": "passed_education_percentage",
+				"isBlank": "False",
+				"isNull": "False",
+				"default": "0"
+			},
+			{
+				"type": "FileField",
+				"name": "passed_education_marksheet",
+				"isBlank": "False",
+				"isNull": "False",
+				"filePath": ""
+			},
+			{
+				"type": "CharField",
+				"name": "current_education",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			},
+			{
+				"type": "CharField",
+				"name": "is_application_received_previously",
+				"isBlank": "False",
+				"isNull": "False",
+				"maxLength": "100"
+			}
+		]
+	}
+}
